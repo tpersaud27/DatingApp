@@ -8,4 +8,6 @@
 ## Core Features of App
 
 - Authentication
+-- JSON Web Tokens (JWTs)
 - Cookies and Caching
+- SSL Security
