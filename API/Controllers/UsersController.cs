@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ namespace API.Controllers
 
         // This method will return a list of all users
         [HttpGet]
+        [AllowAnonymous]
         // IEnumerable is one way of returning lists in dotnet. We can use lists too but we dont need all the method associated to the list
         // We use the IEnumerable of type AppUser, this will return us the list of users
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
@@ -31,6 +33,7 @@ namespace API.Controllers
 
         // This method will return a user based on the id
         // GET api/users/3
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUserById(int id)
         {
