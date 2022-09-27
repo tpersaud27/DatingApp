@@ -1,0 +1,5 @@
+/*  Adding cursor pointer when hovering over toggle and dropdown items */
+.dropdown-toggle, .dropdown-item{
+    cursor: pointer;
+}
+

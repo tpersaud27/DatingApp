@@ -1,0 +1,40 @@
+<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+  <h2 class="text-center text-primary">Sign up</h2>
+  <hr />
+  <div class="form-group">
+    <input
+      name="username"
+      [(ngModel)]="model.username"
+      placeholder="Username"
+      type="text"
+      class="form-control"
+    />
+  </div>
+  <div class="form-group">
+    <input
+      name="password"
+      [(ngModel)]="model.password"
+      placeholder="Password"
+      type="password"
+      class="form-control"
+    />
+  </div>
+  <!-- This is just to demonstrate using Input properties -->
+  <!-- <div class="form-group">
+    <label>What is your favoriate user?</label>
+    <select class="form-control">
+      <option
+        *ngFor="let user of usersFromHomeComponent"
+        [value]="user.userName"
+      >
+        {{ user.userName }}
+      </option>
+    </select>
+  </div> -->
+  <div class="form-group text-center">
+    <button class="btn btn-success mr-2" type="submit">Register</button>
+    <button (click)="cancel()" class="btn btn-danger mr-2" type="button">
+      Cancel
+    </button>
+  </div>
+</form>
