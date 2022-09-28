@@ -17,6 +17,7 @@
 - Angular 12
 - Bootstrap 4
 - Ngx Bootstrap
+- Bootswatch themes
 
 ## Backedn
 
