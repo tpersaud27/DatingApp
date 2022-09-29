@@ -19,9 +19,10 @@
 - Ngx Bootstrap
 - Bootswatch themes
 
-## Backedn
+## Backend
 
 - .NET 6
 - Entity Framework
 - SQLITE Server
 - Postgres SQL
+- Exception handling middleware

@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
     // Since we are in a auth guard it will handle the subscription by itself
     return this.accountService.currentUser$.pipe(
       map((user) => {
+        // If the user exists return true
         if (user) return true;
         this.toastr.error('You shall not pass!');
       })

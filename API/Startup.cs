@@ -53,6 +53,7 @@ namespace API
         {
             if (env.IsDevelopment())
             {
+                // Exception handling middleware always comes at the top of the middleware container
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
