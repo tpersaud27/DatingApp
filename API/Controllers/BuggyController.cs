@@ -55,7 +55,8 @@ namespace API.Controllers
         [HttpGet("bad-request")]
         public ActionResult<string> GetBadRequest()
         {
-            return BadRequest("This was not a good request");
+            Response.StatusCode = 400;
+            return Content("This was not a good request");
         }
 
     }

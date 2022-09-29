@@ -25,17 +25,10 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.accountService.login(this.model).subscribe(
-      (response) => {
-        this.router.navigateByUrl('/members');
-        this.toastr.success('Logged In!');
-      },
-      (error) => {
-        console.log(error);
-        // This will return the error message from the http response
-        this.toastr.error(error.error);
-      }
-    );
+    this.accountService.login(this.model).subscribe((response) => {
+      this.router.navigateByUrl('/members');
+      this.toastr.success('Logged In!');
+    });
   }
 
   logout() {

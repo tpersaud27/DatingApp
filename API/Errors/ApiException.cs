@@ -8,7 +8,7 @@ namespace API.Errors
     // We will return this for all exceptions
     public class ApiException
     {
-        // Defaut values are given for message and details 
+        // Defaut values are given for message and details because they are optional parameters
         public ApiException(int statusCode, string message = null, string details = null)
         {
             StatusCode = statusCode;
@@ -19,6 +19,6 @@ namespace API.Errors
         public int StatusCode { get; set; }
         public string Message { get; set; }
         public string Details { get; set; }
-        
+
     }
 }
