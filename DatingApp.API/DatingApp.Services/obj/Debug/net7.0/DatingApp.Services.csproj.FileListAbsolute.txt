@@ -1,0 +1,12 @@
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\bin\Debug\net7.0\DatingApp.Services.deps.json
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\bin\Debug\net7.0\DatingApp.Services.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\bin\Debug\net7.0\DatingApp.Services.pdb
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.csproj.AssemblyReference.cache
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.AssemblyInfoInputs.cache
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.AssemblyInfo.cs
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.csproj.CoreCompileInputs.cache
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\refint\DatingApp.Services.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.pdb
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\ref\DatingApp.Services.dll
