@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DatingApp.DAL.Migrations
+namespace DatingApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230127022933_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230127043440_UserPasswordAdded")]
+    partial class UserPasswordAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,17 @@ namespace DatingApp.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-                     
+
                     b.ToTable("Users");
                 });
 #pragma warning restore 612, 618

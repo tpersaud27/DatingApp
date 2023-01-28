@@ -10,3 +10,6 @@ C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\refint\DatingApp.Services.dll
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.pdb
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\ref\DatingApp.Services.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\bin\Debug\net7.0\DatingApp.Domain.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\bin\Debug\net7.0\DatingApp.Domain.pdb
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.Services\obj\Debug\net7.0\DatingApp.Services.csproj.CopyComplete

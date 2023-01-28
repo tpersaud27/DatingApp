@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace DatingApp.DAL.Migrations
+namespace DatingApp.API.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
