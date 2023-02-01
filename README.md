@@ -4,8 +4,9 @@
 
 - API structure is a N-tier architecture
 -- Domain: Contains all entitites and DTOs
--- DAL: This is the data access layer
+-- DAL: This is the data access layer. 
 -- Services: This contains all services used in the API
+-- API: Contains controllers and migrations
 - Data contains all database related information
 - Entites contains all databse models/entities used
 
