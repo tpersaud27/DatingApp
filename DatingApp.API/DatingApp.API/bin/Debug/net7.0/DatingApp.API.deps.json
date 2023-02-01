@@ -2546,8 +2546,11 @@
       },
       "DatingApp.Services/1.0.0": {
         "dependencies": {
+          "DatingApp.DAL": "1.0.0",
           "DatingApp.Domain": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.2",
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.26.0"
         },
         "runtime": {

@@ -1,5 +1,4 @@
 import { AccountService } from './_services/account.service';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/User';
 
@@ -22,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   setCurrentUser() {
-    // We use parse to get an object from stringified form
+    // We use parse to get an javascript object from JSON string
     const user: User = JSON.parse(localStorage.getItem('user'));
     // We can set the current user
     this.accountService.setCurrentUser(user);

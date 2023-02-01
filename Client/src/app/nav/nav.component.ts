@@ -11,11 +11,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  // This is the property
+  // This what the user will submit
   model: any = {};
 
-  // We made this  accountService public to avoid having duplicate code
-  //  We can now access the accountService in our template instead
+  // We made this accountService public to avoid having duplicate code
+  // We can now access the accountService in our template instead
+  // Note: Private services are only avaible in the component
   constructor(
     public accountService: AccountService,
     private router: Router,

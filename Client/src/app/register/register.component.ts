@@ -25,20 +25,21 @@ export class RegisterComponent implements OnInit {
 
   // When the form is submitted, the data from the form will be sent to this method
   register() {
-    this.accountService.register(this.model).subscribe(
-      (response) => {
+    this.accountService.register(this.model).subscribe({
+      next: (response) => {
         // After registering we cancel the form
         this.cancel();
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
         this.toastr.error(error.error);
-      }
-    );
+      },
+    });
   }
 
   // We want to emit a value when we click on the cancel button
   cancel() {
+    // We emit false because we want to send this to the home component
     this.cancelRegister.emit(false);
   }
 }
