@@ -5,6 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
@@ -13,7 +14,7 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  // We use the router here because for certain types of errors we want to relocate the user to a different page
+  // We use the router here because for certain types of errors we want to reroute the user to a different page
   constructor(private router: Router, private toastr: ToastrService) {}
 
   intercept(
@@ -21,9 +22,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError((error) => {
+      catchError((error: HttpErrorResponse) => {
         // If there is an error
         if (error) {
+          // Switch based on status code
           switch (error.status) {
             case 400:
               // Check for the error based on username and password
@@ -38,13 +40,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
                 // Throw errors back to the components
                 // We will display a list of validation errors for the user
+                // Flat will merge the arrays into one
                 throw modelStateErrors.flat();
               } else {
-                this.toastr.error(error.statusText, error.status);
+                this.toastr.error(error.statusText, error.status.toString());
               }
               break;
             case 401:
-              this.toastr.error(error.statusText, error.status);
+              this.toastr.error('Unauthorized', error.status.toString());
               break;
             case 404:
               this.router.navigateByUrl('/not-found');
@@ -53,6 +56,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               const navigationExtras: NavigationExtras = {
                 state: { error: error.error },
               };
+              // When we navigate to server-error we will have access to the navigation extras
               this.router.navigateByUrl('/server-error', navigationExtras);
               break;
             default:

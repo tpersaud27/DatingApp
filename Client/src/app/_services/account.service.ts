@@ -8,7 +8,7 @@ import { User } from '../_models/User';
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'https://localhost:7036/api/';
+  baseUrl = 'https://localhost:5001/api/';
   // Will store the values inside here and anytime a subscribes to the observable, it will emit the last value inside of it
   // Or any many values as want from inside of it
   // In this case, we store just one user

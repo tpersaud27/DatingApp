@@ -2,6 +2,7 @@ using DatingApp.DAL;
 using DatingApp.Services.Extensions;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
+using DatingApp.Services.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -32,8 +33,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
 // When a HTTP request comes in the pipeline we can do something with it using middleware
+
+// Exception handling middleware should be at the top of the pipeline
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

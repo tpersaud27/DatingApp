@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  // This what the user will submit
+  // This what the user will submit in the login form (Username and Password)
   model: any = {};
 
   // We made this accountService public to avoid having duplicate code
@@ -27,6 +27,7 @@ export class NavComponent implements OnInit {
 
   login() {
     this.accountService.login(this.model).subscribe((response) => {
+      // When the user logs in they will be navigated to the members page
       this.router.navigateByUrl('/members');
       this.toastr.success('Logged In!');
     });
