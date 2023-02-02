@@ -19,8 +19,6 @@ namespace DatingApp.DAL.Implementation
             _context = context;
         }
 
-
-
         /// <summary>
         /// Returns user based on id
         /// </summary>
@@ -67,11 +65,11 @@ namespace DatingApp.DAL.Implementation
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async void Update(AppUser user)
+        public void Update(AppUser user)
         {
             // This tells entity framework change tracking that something has changed with the user entity 
             // This might not be necessary but it will be included anyways. EF is automatically tracking when there is a change to an entity
-            _context.Entry(user).State = EntityState.Modified;
+             _context.Entry(user).State = EntityState.Modified;
         }
     }
 }

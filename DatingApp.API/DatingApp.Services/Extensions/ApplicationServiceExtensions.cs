@@ -1,4 +1,5 @@
 ﻿using DatingApp.DAL;
+using DatingApp.DAL.AutomapperConfig;
 using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Services.Implementation;
@@ -37,6 +38,8 @@ namespace DatingApp.Services.Extensions
             services.AddScoped<ITokenService, TokenService>();
             // UserRepository
             services.AddScoped<IUserRepository, UserRepository>();
+            // Automapper 
+            services.AddAutoMapper(typeof(AutomapperConfig));
 
 
             return services;

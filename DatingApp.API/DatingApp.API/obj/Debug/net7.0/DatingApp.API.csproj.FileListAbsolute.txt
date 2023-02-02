@@ -308,3 +308,5 @@ C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.API\bin\Debug\net7.0\DatingApp.Services.dll
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.API\bin\Debug\net7.0\DatingApp.Services.pdb
 C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.API\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\tpers\OneDrive\Documents\Programming\DatingApp\DatingApp.API\DatingApp.API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
