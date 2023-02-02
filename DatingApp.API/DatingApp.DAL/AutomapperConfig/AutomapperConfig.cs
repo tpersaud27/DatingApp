@@ -17,8 +17,6 @@ namespace DatingApp.DAL.AutomapperConfig
             // This is a map from AppUser to MemeberDto
             CreateMap<AppUser, MemberDto>();
             CreateMap<Photo, PhotoDto>();
-
-
         }
 
 

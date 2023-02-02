@@ -18,7 +18,6 @@ namespace DatingApp.Services.Extensions
     // Using static here allows us to have on instance of the class so we dont need to instantiate to use these methods
     public static class ApplicationServiceExtensions
     {
-
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
 
@@ -36,10 +35,10 @@ namespace DatingApp.Services.Extensions
 
             // JWT Service
             services.AddScoped<ITokenService, TokenService>();
-            // UserRepository
-            services.AddScoped<IUserRepository, UserRepository>();
             // Automapper 
             services.AddAutoMapper(typeof(AutomapperConfig));
+            // UserRepository
+            services.AddScoped<IUserRepository, UserRepository>();
 
 
             return services;
