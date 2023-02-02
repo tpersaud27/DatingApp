@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatingApp.Services.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,6 +30,15 @@ namespace DatingApp.Domain.Entities
         public string City { get; set; }
         public string Country { get; set; }
         public List<Photo> Photos { get; set; } = new List<Photo>();
+
+        /// <summary>
+        /// This method will calculate the age of a user
+        /// </summary>
+        /// <returns>User age</returns>
+        public int GetAge()
+        {
+            return DateOfBirth.CalculateAge();
+        }
 
 
 

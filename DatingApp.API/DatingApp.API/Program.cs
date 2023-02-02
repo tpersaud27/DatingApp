@@ -1,4 +1,5 @@
 using DatingApp.DAL;
+using DatingApp.DAL.UserSeedData;
 using DatingApp.Services.Extensions;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
@@ -59,5 +60,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    // This will create a database with the seed data
+    await context.Database.MigrateAsync();
+    await Seed.SeedUsers(context);
+
+}
+catch(Exception ex)
+{
+    var logger = services.GetService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured during migration");
+}
 
 app.Run();
