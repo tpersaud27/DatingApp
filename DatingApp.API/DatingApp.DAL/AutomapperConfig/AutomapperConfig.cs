@@ -15,7 +15,10 @@ namespace DatingApp.DAL.AutomapperConfig
         public AutomapperConfig()
         {
             // This is a map from AppUser to MemeberDto
-            CreateMap<AppUser, MemberDto>();
+            // This is how we configure the PhotoUrl property in MemberDto
+            CreateMap<AppUser, MemberDto>()
+                .ForMember(destination => destination.PhotoUrl, 
+                 options => options.MapFrom(src => src.Photos.FirstOrDefault(x=>x.IsMain).Url));
             CreateMap<Photo, PhotoDto>();
         }
 

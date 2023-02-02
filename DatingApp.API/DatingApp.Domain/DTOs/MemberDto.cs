@@ -13,6 +13,7 @@ namespace DatingApp.Domain.DTOs
         public int Id { get; set; }
         public string UserName { get; set; }
         public int Age { get; set; }
+        public string PhotoUrl { get; set; }
         public string KnownAs { get; set; }
         // This is when the user was created
         public DateTime Created { get; set; } 
