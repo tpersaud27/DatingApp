@@ -1,4 +1,6 @@
 ﻿using DatingApp.DAL;
+using DatingApp.DAL.Implementation;
+using DatingApp.DAL.Interfaces;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +31,13 @@ namespace DatingApp.Services.Extensions
                 });
             });
 
+            //services.AddCors();
 
             // JWT Service
             services.AddScoped<ITokenService, TokenService>();
+            // UserRepository
+            services.AddScoped<IUserRepository, UserRepository>();
+
 
             return services;
         }
