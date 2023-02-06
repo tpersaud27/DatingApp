@@ -1,0 +1,21 @@
+/* When the user is hovering over the image we increase the size and create a fading effect */
+.card:hover img {
+    /* This is increasing the size of the card */
+    transform: scale(1.2,1.2);
+    /* This is how long we want this to go on for */
+    transition-duration: 500ms;
+    transition-timing-function: east-out;
+    opacity: 0.7;
+}
+
+/* When the user is not hovering over the image we want to scale it back to its normal size */
+.card img{
+    transform: scale(1.0,1.0);
+    transition-duration: 500ms;
+    transition-timing-function: east-out;
+}
+
+/* This will confine the image increase to inside the box */
+.card-img-wrapper{
+    overflow: hidden;
+}
