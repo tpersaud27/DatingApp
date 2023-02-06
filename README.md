@@ -3,10 +3,10 @@
 ## Folder Structure
 
 - API structure is a N-tier architecture
--- Domain: Contains all entitites and DTOs
--- DAL: This is the data access layer.
--- Services: This contains all services used in the API
--- API: Contains controllers and migrations
+- Domain: Contains all entitites and DTOs
+- DAL: This is the data access layer.
+- Services: This contains all services used in the API
+- API: Contains controllers and migrations
 - Data contains all database related information
 - Entites contains all databse models/entities used
 
@@ -24,6 +24,7 @@
 - Bootstrap 4
 - Ngx Bootstrap
 - Bootswatch themes
+- Font Awesome Icons
 
 ## Backend
 
@@ -31,4 +32,3 @@
 - Entity Framework
 - SQLITE Server
 - Postgres SQL
-
