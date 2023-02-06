@@ -35,10 +35,10 @@ namespace DatingApp.Domain.Entities
         /// This method will calculate the age of a user
         /// </summary>
         /// <returns>User age</returns>
-        public int GetAge()
-        {
-            return DateOfBirth.CalculateAge();
-        }
+        //public int GetAge()
+        //{
+        //    return DateOfBirth.CalculateAge();
+        //}
 
 
 

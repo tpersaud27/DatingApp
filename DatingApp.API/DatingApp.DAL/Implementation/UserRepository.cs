@@ -1,4 +1,7 @@
-﻿using DatingApp.DAL.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using DatingApp.DAL.Interfaces;
+using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +16,33 @@ namespace DatingApp.DAL.Implementation
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public UserRepository(DataContext context)
+        public UserRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+        }
+
+        public Task<MemberDto> GetMemberByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<MemberDto> GetMemberByUsernameAsync(string userName)
+        {
+            return await _context.Users
+                .Where(x => x.UserName == userName)
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        {
+            return await _context.Users
+                // When we use projection we do not need to use eager loading, this is handled for us
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -40,11 +66,6 @@ namespace DatingApp.DAL.Implementation
             var user = await _context.Users
                 .Include(p => p.Photos)
                 .FirstOrDefaultAsync(x => x.UserName == userName);
-
-            if(user == null)
-            {
-                return null;
-            }
             return user;
         }
 
