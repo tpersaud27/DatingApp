@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -29,6 +28,9 @@ export class HomeComponent implements OnInit {
   // }
 
   // This will take a event in, which will be false and set the to the registerMode to disable the form
+  
+  
+  
   cancelRegisterMode(event: boolean) {
     this.registerMode = event;
   }
