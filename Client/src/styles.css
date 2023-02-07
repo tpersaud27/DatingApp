@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* We are overrding some of the NgxBoostrap styling for Tabs */
+/* We are overiding some of the NgxBoostrap styling for Tabs */
 .tab-panel {
     border: 1px solid #ddd;
     padding: 10px;
@@ -49,4 +49,9 @@
     border: 0;
     border-top: 1px solid #eee;
     padding: 15px 0;
+}
+
+.ngx-gallery {
+    display: inline-block;
+    margin-bottom: 20px;
 }
