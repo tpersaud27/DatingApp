@@ -1,1 +1,109 @@
-<h1 *ngIf="member">{{ member.userName }}</h1>
+<div class="row" *ngIf="member">
+  <!-- This is the top part of the page -->
+  <div class="col-4">
+    <h1>Your profile</h1>
+  </div>
+  <div class="col-8">
+    <!-- Dirty allows us to know if the form has been touched -->
+    <div class="alert alert-info" *ngIf="editForm.dirty">
+      <p>
+        <strong>Information: </strong>You have made changes. Any unsaves changes
+        will be lost.
+      </p>
+    </div>
+  </div>
+
+  <!-- This is the bottom part of the page (Profile Card) -->
+  <!-- This will be the left 1/3 of the screen -->
+  <div class="col-4">
+    <div class="card">
+      <!-- This will default to a user.png image if no photo is available -->
+      <img
+        src="{{ member.photoUrl || './assets/user.png' }}"
+        alt="{{ member.knownAs }}"
+        class="card-img-top img-thumbnail"
+      />
+      <div class="card-body">
+        <div>
+          <strong>Location: </strong>
+          <p>{{ member.city }}, {{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age: </strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Last Active: </strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Member Since: </strong>
+          <p>{{ member.created }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button
+          class="btn btn-primary col-12"
+          form="editForm"
+          [disabled]="!editForm.dirty"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- This will be the right 2/3 of the screen (remainder of page)-->
+  <!-- This is the user profile information to edit -->
+  <div class="col-8">
+    <tabset class="member-tabset">
+      <tab heading="About {{ member.knownAs }}">
+        <!-- ngSubmit looks for a submit button in our form, when that button is clicked the method will be executed -->
+        <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
+          <h4 class="mt-2">Description</h4>
+          <textarea
+            class="form-control"
+            [(ngModel)]="member.introduction"
+            name="introduction"
+            rows="6"
+          ></textarea>
+          <h4 class="mt-2">Looking for</h4>
+          <textarea
+            class="form-control"
+            [(ngModel)]="member.lookingFor"
+            name="lookingFor"
+            rows="6"
+          ></textarea>
+          <h4 class="mt-2">Interests</h4>
+          <textarea
+            class="form-control"
+            [(ngModel)]="member.interests"
+            name="interests"
+            rows="6"
+          ></textarea>
+          <h4 class="mt-2">Location Details:</h4>
+          <!-- We want these to be inline, thus we are using d-flex -->
+          <div class="d-flex flex-row align-items-center">
+            <label for="city">City: </label>
+            <input
+              type="text"
+              [(ngModel)]="member.city"
+              name="city"
+              class="form-control mx-2"
+            />
+            <label for="country">Country: </label>
+            <input
+              type="text"
+              [(ngModel)]="member.country"
+              name="country"
+              class="form-control mx-2"
+            />
+          </div>
+        </form>
+      </tab>
+      <tab heading="Edit Photos">
+        <p>Photo edit will go here</p>
+      </tab>
+    </tabset>
+  </div>
+</div>

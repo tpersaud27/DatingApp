@@ -1,9 +1,11 @@
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MembersService } from './../../_services/members.service';
 import { User } from './../../_models/User';
 import { AccountService } from './../../_services/account.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/Member';
 import { take } from 'rxjs/operators';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-member-edit',
@@ -17,9 +19,13 @@ export class MemberEditComponent implements OnInit {
   // Our user is null initially until we go to our account service and get the user
   user: User | null = null;
 
+  // This will look for a template form with the name editForm
+  @ViewChild('editForm') editForm: NgForm | undefined;
+
   constructor(
     private accountService: AccountService,
-    private memberService: MembersService
+    private memberService: MembersService,
+    private toastr: ToastrService
   ) {
     // As soon as we get the user our request is completed and we do not need to unsubscribe
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -42,5 +48,13 @@ export class MemberEditComponent implements OnInit {
     this.memberService.getMemberByUserName(this.user.username).subscribe({
       next: (member) => (this.member = member),
     });
+  }
+
+  updateMember() {
+    console.log(this.member);
+    this.toastr.success('Profile Updated Successfully');
+
+    // Update the user information when they submit the form
+    this.editForm.reset(this.member);
   }
 }
