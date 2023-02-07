@@ -1,1 +1,60 @@
-<p>member-detail works!</p>
+<div class="row" *ngIf="member">
+  <!-- This will be the left 1/3 of the screen -->
+  <div class="col-4">
+    <div class="card">
+      <!-- This will default to a user.png image if no photo is available -->
+      <img
+        src="{{ member.photoUrl || './assets/user.png' }}"
+        alt="{{ member.knownAs }}"
+        class="card-img-top img-thumbnail"
+      />
+      <div class="card-body">
+        <div>
+          <strong>Location: </strong>
+          <p>{{ member.city }}, {{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age: </strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Last Active: </strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Member Since: </strong>
+          <p>{{ member.created }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <!-- This will ensure our button groups are in a row rather than a column -->
+        <div class="btn-group d-flex">
+          <button class="btn btn-secondary">Like</button>
+          <button class="btn btn-primary">Messages</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- This will be the right 2/3 of the screen (remainder of page)-->
+  <div class="col-8">
+    <tabset class="member-tabset">
+      <tab heading="About {{ member.knownAs }}">
+        <h4>Description</h4>
+        <p>{{ member.introduction }}</p>
+        <h4>Looking for</h4>
+        <p>{{ member.lookingFor }}</p>
+      </tab>
+      <tab heading="Interests">
+        <h4>Interests</h4>
+        <p>{{ member.interests }}</p>
+      </tab>
+      <tab heading="Photos">
+        <p>Photos will go here</p>
+      </tab>
+      <tab heading="Messages">
+        <p>Messages will go here</p>
+      </tab>
+    </tabset>
+  </div>
+</div>
