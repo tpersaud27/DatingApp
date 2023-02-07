@@ -34,3 +34,4 @@
 - Entity Framework
 - SQLITE Server
 - Postgres SQL
+- Cloudinary

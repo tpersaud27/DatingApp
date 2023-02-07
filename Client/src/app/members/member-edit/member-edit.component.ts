@@ -1,8 +1,8 @@
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { MembersService } from './../../_services/members.service';
 import { User } from './../../_models/User';
 import { AccountService } from './../../_services/account.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/Member';
 import { take } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
@@ -21,6 +21,14 @@ export class MemberEditComponent implements OnInit {
 
   // This will look for a template form with the name editForm
   @ViewChild('editForm') editForm: NgForm | undefined;
+  // This is the browser event that notifies the user when they are leaving the page when they are 
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private accountService: AccountService,
