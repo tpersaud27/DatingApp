@@ -1,3 +1,4 @@
+import { JwtInterceptor } from './../_interceptors/jwt.interceptor';
 import { Member } from './../_models/Member';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -12,34 +13,29 @@ export class MembersService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Note we use the [] brackets to signify this is a array of users
+   * Note: We use the [] brackets to signify this is a array of users
+   * Note: Our interceptor will get the outgoing request and add the authentication token to the request
    * @returns
    */
   getMembers() {
-    return this.http.get<Member[]>(
-      this.baseUrl + 'users',
-      this.getHttpOptions()
-    );
+    return this.http.get<Member[]>(this.baseUrl + 'users');
   }
 
   getMemberByUserName(userName: string) {
-    return this.http.get<Member>(
-      this.baseUrl + 'users/username/' + userName,
-      this.getHttpOptions()
-    );
+    return this.http.get<Member>(this.baseUrl + 'users/username/' + userName);
   }
 
   // Temp method to pass token in the http header
-  getHttpOptions() {
-    // Getting the current user.
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
+  // getHttpOptions() {
+  //   // Getting the current user.
+  //   const userString = localStorage.getItem('user');
+  //   if (!userString) return;
 
-    const user = JSON.parse(userString);
-    return {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + user.token,
-      }),
-    };
-  }
+  //   const user = JSON.parse(userString);
+  //   return {
+  //     headers: new HttpHeaders({
+  //       Authorization: 'Bearer ' + user.token,
+  //     }),
+  //   };
+  // }
 }
