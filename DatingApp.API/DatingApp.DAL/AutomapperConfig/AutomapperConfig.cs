@@ -24,6 +24,8 @@ namespace DatingApp.DAL.AutomapperConfig
                 .ForMember(destination => destination.Age,
                 options => options.MapFrom(src => src.DateOfBirth.CalculateAge()));
             CreateMap<Photo, PhotoDto>();
+            // This will map the properties in MemberDto to AppUser entity
+            CreateMap<MemberUpdateDto, AppUser>();
         }
 
 
