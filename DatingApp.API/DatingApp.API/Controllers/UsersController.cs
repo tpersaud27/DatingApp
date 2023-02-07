@@ -70,11 +70,7 @@ namespace DatingApp.API.Controllers
 
             // This would occur if the user did not make any changes 
             return BadRequest("Failed to update user");
-
         }
-
-
-
 
     }
 }

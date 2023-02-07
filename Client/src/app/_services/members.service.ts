@@ -25,6 +25,10 @@ export class MembersService {
     return this.http.get<Member>(this.baseUrl + 'users/username/' + userName);
   }
 
+  updateMember(member: Member) {
+    return this.http.put(this.baseUrl + 'users', member);
+  }
+
   // Temp method to pass token in the http header
   // getHttpOptions() {
   //   // Getting the current user.

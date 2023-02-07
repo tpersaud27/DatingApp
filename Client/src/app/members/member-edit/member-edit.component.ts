@@ -21,7 +21,7 @@ export class MemberEditComponent implements OnInit {
 
   // This will look for a template form with the name editForm
   @ViewChild('editForm') editForm: NgForm | undefined;
-  // This is the browser event that notifies the user when they are leaving the page when they are 
+  // This is the browser event that notifies the user when they are leaving the page when they are
   @HostListener('window:beforeunload', ['$event']) unloadNotification(
     $event: any
   ) {
@@ -59,10 +59,13 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMember() {
-    console.log(this.member);
-    this.toastr.success('Profile Updated Successfully');
-
-    // Update the user information when they submit the form
-    this.editForm.reset(this.member);
+    this.memberService.updateMember(this.editForm?.value).subscribe({
+      // Since we get nothing back from this request as the response is 204. We just notify the user and update the form upon submission.
+      next: (_) => {
+        this.toastr.success('Profile Updated Successfully');
+        // Update the user information when they submit the form
+        this.editForm.reset(this.member);
+      },
+    });
   }
 }
