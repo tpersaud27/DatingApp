@@ -1,3 +1,4 @@
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NgModule } from '@angular/core';
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'members/:username',
         component: MemberDetailComponent,
+      },
+      {
+        path: 'member/edit',
+        component: MemberEditComponent,
       },
       {
         path: 'messages',

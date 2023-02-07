@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
@@ -10,10 +10,9 @@ import { User } from '../_models/User';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  // Will store the values inside here and anytime a subscribes to the observable, it will emit the last value inside of it
-  // Or any many values as want from inside of it
+  // Will store the values inside here and anytime a subscribes to the observable, it will emit the last value inside of it, with the intial value of null
   // In this case, we store just one user
-  private currentUserSource = new ReplaySubject<User>(1);
+  private currentUserSource = new BehaviorSubject<User | null>(null);
   // The convention for setting observables is using the $ sign
   currentUser$ = this.currentUserSource.asObservable();
 

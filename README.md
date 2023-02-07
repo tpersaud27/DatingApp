@@ -25,6 +25,8 @@
 - Ngx Bootstrap
 - Bootswatch themes
 - Font Awesome Icons
+- Ngx Gallery <https://github.com/kolkov/ngx-gallery>
+- Nxg Toastr
 
 ## Backend
 
