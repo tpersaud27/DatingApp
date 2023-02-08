@@ -11,6 +11,9 @@ ssl
 
 # dependencies
 /node_modules
+.angular
+/.angular/cache
+/.angular
 
 # profiling files
 chrome-profiler-events*.json

@@ -10,7 +10,6 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
