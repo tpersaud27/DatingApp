@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj": {}
+    "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj": {
+    "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj",
         "projectName": "DatingApp.DAL",
-        "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj",
+        "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj",
         "packagesPath": "C:\\Users\\tpers\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\obj\\",
+        "outputPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
-                "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj"
+              "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
+                "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj"
               }
             }
           }
@@ -87,14 +87,14 @@
         }
       }
     },
-    "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
+    "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj",
         "projectName": "DatingApp.Domain",
-        "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj",
+        "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj",
         "packagesPath": "C:\\Users\\tpers\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\obj\\",
+        "outputPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -152,14 +152,14 @@
         }
       }
     },
-    "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj": {
+    "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj",
+        "projectUniqueName": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj",
         "projectName": "DatingApp.Services",
-        "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj",
+        "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj",
         "packagesPath": "C:\\Users\\tpers\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Services\\obj\\",
+        "outputPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -180,11 +180,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj": {
-                "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj"
+              "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj": {
+                "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.DAL\\DatingApp.DAL.csproj"
               },
-              "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
-                "projectPath": "C:\\Users\\tpers\\OneDrive\\Documents\\Programming\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj"
+              "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj": {
+                "projectPath": "C:\\Users\\tpers\\Desktop\\DatingApp\\DatingApp.API\\DatingApp.Domain\\DatingApp.Domain.csproj"
               }
             }
           }
