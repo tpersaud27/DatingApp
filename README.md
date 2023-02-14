@@ -26,7 +26,8 @@
 - Bootswatch themes
 - Font Awesome Icons
 - Ngx Gallery <https://github.com/kolkov/ngx-gallery>
-- Nxg Toastr
+- Ngx Toastr
+- Ngx Spinner <https://www.npmjs.com/package/ngx-spinner>
 
 ## Backend
 

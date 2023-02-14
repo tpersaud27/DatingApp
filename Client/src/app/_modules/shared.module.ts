@@ -16,7 +16,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       positionClass: 'toast-bottom-right',
     }),
     NgxGalleryModule,
-    NgxSpinnerModule,
+    NgxSpinnerModule.forRoot({
+      type: 'line-scale-party',
+    }),
   ],
   exports: [
     BsDropdownModule,
