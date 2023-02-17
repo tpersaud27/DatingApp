@@ -2,6 +2,7 @@
 using DatingApp.DAL.AutomapperConfig;
 using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
+using DatingApp.Services.CloudinaryService;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -35,10 +36,15 @@ namespace DatingApp.Services.Extensions
 
             // JWT Service
             services.AddScoped<ITokenService, TokenService>();
-            // Automapper 
+            // Automapper Config
             services.AddAutoMapper(typeof(AutomapperConfig));
             // UserRepository
             services.AddScoped<IUserRepository, UserRepository>();
+            // Cloudinary Config
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            // Cloudinary Service
+            services.AddScoped<IPhotoService, PhotoService>();
+
 
 
             return services;

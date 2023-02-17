@@ -35,4 +35,5 @@
 - Entity Framework
 - SQLITE Server
 - Postgres SQL
-- Cloudinary
+- Cloudinary (Photo storage)
+- SignalR

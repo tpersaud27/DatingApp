@@ -4,6 +4,8 @@ using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
+using DatingApp.Services.Extensions;
+using DatingApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +19,12 @@ namespace DatingApp.API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper){
+        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService){
             _userRepository = userRepository;
             _mapper = mapper;
+            _photoService = photoService;
         }
 
         [HttpGet]
@@ -53,7 +57,7 @@ namespace DatingApp.API.Controllers
         {
             // This 'User' is from System.Security.Claim.Claims. 
             // In here we will get access to our token, which we can get the userName from
-            var userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userName = User.GetUsername();
             // When we retrieve this user, it is being tracked by EF
             // Any changes will be tracked by EF
             var user = await _userRepository.GetUserByUsernameAsync(userName);
@@ -70,6 +74,56 @@ namespace DatingApp.API.Controllers
 
             // This would occur if the user did not make any changes 
             return BadRequest("Failed to update user");
+        }
+
+        [HttpPost("add-photo")]
+        public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+        {
+            // Getting the user using the JWT Claims
+            var userName = User.GetUsername();
+            var user = await _userRepository.GetUserByUsernameAsync(userName);
+
+            // If there is no user 
+            if (user == null) return NotFound();
+
+            var result = await _photoService.AddPhotoAsync(file);
+
+            // If there is a error, return the error message
+            if(result.Error != null) return BadRequest(result.Error.Message);
+
+            // We want to add the photo to the user 
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsolutePath,
+                PublicId = result.PublicId,
+
+            };
+
+            // Check if this is the first photo the user is uploading
+            // If so we want to set this as the main photo
+            if(user.Photos.Count == 0) {
+                photo.IsMain= true;
+            }
+
+            // Add the photo to the user list of photos
+            user.Photos.Add(photo);
+
+            // Since entity framework is tracking changes we can check if there any saved changes
+            if(await _userRepository.SaveAllAsync())
+            {
+                // Return photoDto
+                // We map into the PhotoDto from the photo
+                // So the properties in PhotoDto are population from that of photo
+                return _mapper.Map<PhotoDto>(photo);
+            }
+
+            // If the changes are not saved successfully return bad request
+            return BadRequest("Problem Adding Photo");
+
+
+
+
+
         }
 
     }
