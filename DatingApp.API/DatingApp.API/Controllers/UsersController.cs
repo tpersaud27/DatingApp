@@ -52,6 +52,11 @@ namespace DatingApp.API.Controllers
         }
 
 
+        /// <summary>
+        /// Allows a user to update their profile information
+        /// </summary>
+        /// <param name="memberUpdateDto"></param>
+        /// <returns> As per REST API standards for updating content we return a 204 response code </returns>
         [HttpPut()]
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
@@ -76,6 +81,11 @@ namespace DatingApp.API.Controllers
             return BadRequest("Failed to update user");
         }
 
+        /// <summary>
+        /// Allows a user to add a new photo
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns> As per REST API standards we should be returning a 201 response for creating resources </returns>
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
         {
@@ -94,10 +104,11 @@ namespace DatingApp.API.Controllers
             // We want to add the photo to the user 
             var photo = new Photo
             {
-                Url = result.SecureUrl.AbsolutePath,
+                Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
 
             };
+
 
             // Check if this is the first photo the user is uploading
             // If so we want to set this as the main photo
@@ -114,15 +125,14 @@ namespace DatingApp.API.Controllers
                 // Return photoDto
                 // We map into the PhotoDto from the photo
                 // So the properties in PhotoDto are population from that of photo
-                return _mapper.Map<PhotoDto>(photo);
+                //return _mapper.Map<PhotoDto>(photo);
+
+                // We are using this because we want to return a 201 response code as per REST api standards
+                return CreatedAtAction(nameof(GetUserByUsername), new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
             }
 
             // If the changes are not saved successfully return bad request
             return BadRequest("Problem Adding Photo");
-
-
-
-
 
         }
 

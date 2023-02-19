@@ -32,7 +32,7 @@ namespace DatingApp.Services.Extensions
                 });
             });
 
-            //services.AddCors();
+            services.AddCors();
 
             // JWT Service
             services.AddScoped<ITokenService, TokenService>();
