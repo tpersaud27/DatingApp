@@ -1,0 +1,8 @@
+.nv-file-over{
+    border: dotted 3px red;
+}
+
+/* Removing the text near the inputs */
+input[type = file]{
+    color: transparent;
+}
