@@ -26,9 +26,7 @@ export class AccountService {
         const user: User = response;
         // If the user exist we will populate the user object into the browser local storage
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          // We are using this to persist the login
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
@@ -40,16 +38,17 @@ export class AccountService {
       map((user: User) => {
         // If the user exists
         if (user) {
-          // Key is user, value is the json of the user object
-          // Once the user registers we log them in
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
   }
 
   setCurrentUser(user: User) {
+    // Key is user, value is the json of the user object
+    // Once the user registers we log them in
+    localStorage.setItem('user', JSON.stringify(user));
+    // We are using this to persist the login
     this.currentUserSource.next(user);
   }
 

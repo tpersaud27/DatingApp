@@ -77,7 +77,9 @@ namespace DatingApp.API.Controllers
         {
             // Retrieve the user
             // Note: We use first or default because default will return null
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             // Check if the user exists
             if(user == null)
@@ -104,7 +106,8 @@ namespace DatingApp.API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 
