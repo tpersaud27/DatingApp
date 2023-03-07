@@ -136,5 +136,48 @@ namespace DatingApp.API.Controllers
 
         }
 
+        /// <summary>
+        /// Allows a user to update a new photo as their main photo
+        /// </summary>
+        /// <param name="photoId"></param>
+        /// <returns></returns>
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+
+            // Remember we are getting the user name from the JWT claims
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            if(user is null) return NotFound();
+
+            // Get the photo based on the id 
+            var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+
+            if(photo is null) return NotFound();
+
+            // We should check if the photo is already the main phot
+            if (photo.IsMain) return BadRequest("This is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
+            // Check if the currentMain is not null, this means there is already a photo there.
+            if(currentMain != null)
+            {
+                // Set the current main to false
+                currentMain.IsMain = false;
+                // Set the new photo to main
+                photo.IsMain = true;
+            }
+
+            // If the changes were saved
+            if(await _userRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Problem setting main photo");
+        }
+
+
     }
 }
