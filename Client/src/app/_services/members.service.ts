@@ -58,6 +58,10 @@ export class MembersService {
     );
   }
 
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
   // Temp method to pass token in the http header
   // getHttpOptions() {
   //   // Getting the current user.

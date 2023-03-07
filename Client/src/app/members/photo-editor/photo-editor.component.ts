@@ -1,3 +1,4 @@
+import { MembersService } from 'src/app/_services/members.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/Member';
@@ -5,6 +6,7 @@ import { User } from 'src/app/_models/User';
 import { AccountService } from 'src/app/_services/account.service';
 import { environment } from 'src/environments/environment';
 import { FileUploader, FileItem, FileUploaderOptions } from 'ng2-file-upload';
+import { Photo } from 'src/app/_models/Photo';
 
 @Component({
   selector: 'app-photo-editor',
@@ -25,7 +27,10 @@ export class PhotoEditorComponent implements OnInit {
   // We need to user
   user: User | undefined;
 
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountService: AccountService,
+    private memberService: MembersService
+  ) {
     // Getting the user
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
@@ -36,10 +41,33 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUploader();
+
+    console.log(this.member.photos);
   }
 
   fileOverBase(event: any) {
     this.hasBaseDropZoneOver = event;
+  }
+
+  setMainPhoto(photo: Photo) {
+    this.memberService.setMainPhoto(photo.id).subscribe({
+      next: () => {
+        if (this.user && this.member) {
+          // Set the new photoUrl for the user
+          this.user.photoUrl = photo.url;
+          // This is needed to update any other components that use the main photo (such as navbar)
+          this.accountService.setCurrentUser(this.user);
+          this.member.photoUrl = photo.url;
+          // This will access the photos and
+          this.member.photos.forEach((p) => {
+            // Set the current main to fasel
+            if (p.isMain) p.isMain = false;
+            // Set the new main
+            if (p.id === photo.id) p.isMain = true;
+          });
+        }
+      },
+    });
   }
 
   // Giving the file uploader some initial configurations
