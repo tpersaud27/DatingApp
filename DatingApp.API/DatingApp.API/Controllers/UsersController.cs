@@ -21,7 +21,7 @@ namespace DatingApp.API.Controllers
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService){
+        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService) {
             _userRepository = userRepository;
             _mapper = mapper;
             _photoService = photoService;
@@ -42,7 +42,7 @@ namespace DatingApp.API.Controllers
             var userToReturn = _mapper.Map<MemberDto>(user);
             return Ok(userToReturn);
 
-            
+
         }
 
         [HttpGet("username/{username}")] //api/users/{username}
@@ -99,7 +99,7 @@ namespace DatingApp.API.Controllers
             var result = await _photoService.AddPhotoAsync(file);
 
             // If there is a error, return the error message
-            if(result.Error != null) return BadRequest(result.Error.Message);
+            if (result.Error != null) return BadRequest(result.Error.Message);
 
             // We want to add the photo to the user 
             var photo = new Photo
@@ -112,15 +112,15 @@ namespace DatingApp.API.Controllers
 
             // Check if this is the first photo the user is uploading
             // If so we want to set this as the main photo
-            if(user.Photos.Count == 0) {
-                photo.IsMain= true;
+            if (user.Photos.Count == 0) {
+                photo.IsMain = true;
             }
 
             // Add the photo to the user list of photos
             user.Photos.Add(photo);
 
             // Since entity framework is tracking changes we can check if there any saved changes
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 // Return photoDto
                 // We map into the PhotoDto from the photo
@@ -148,12 +148,12 @@ namespace DatingApp.API.Controllers
             // Remember we are getting the user name from the JWT claims
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            if(user is null) return NotFound();
+            if (user is null) return NotFound();
 
             // Get the photo based on the id 
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
 
-            if(photo is null) return NotFound();
+            if (photo is null) return NotFound();
 
             // We should check if the photo is already the main phot
             if (photo.IsMain) return BadRequest("This is already your main photo");
@@ -161,7 +161,7 @@ namespace DatingApp.API.Controllers
             var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
 
             // Check if the currentMain is not null, this means there is already a photo there.
-            if(currentMain != null)
+            if (currentMain != null)
             {
                 // Set the current main to false
                 currentMain.IsMain = false;
@@ -170,12 +170,50 @@ namespace DatingApp.API.Controllers
             }
 
             // If the changes were saved
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 return NoContent();
             }
 
             return BadRequest("Problem setting main photo");
+        }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+
+            // Getting the user using the JWT Claims
+            var userName = User.GetUsername();
+            var user = await _userRepository.GetUserByUsernameAsync(userName);
+
+            // Find the photo based on the id
+            var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+
+            //if (photo == null) return NotFound("Photo not found.");
+
+            // Check if photo is main photo. 
+            // Note: User should not be able to delete main photo
+            if (photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+
+            // If this is a cloudinary photo
+            if (photo.PublicId != null)
+            {
+                // Call DeletePhotoAsync method from photoservice
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                
+                if (result.Error != null) return BadRequest(result.Error.Message);
+            }
+
+            // Remove the photo
+            user.Photos.Remove(photo);
+
+            // If the changes were saved return Ok
+            if (await _userRepository.SaveAllAsync()) return Ok("Photo successfully deleted.");
+
+            return BadRequest("Problem deleting photo.");
+
+
         }
 
 

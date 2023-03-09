@@ -79,7 +79,7 @@ namespace DatingApp.API.Controllers
             // Note: We use first or default because default will return null
             var user = await _context.Users
                 .Include(p => p.Photos)
-                .FirstOrDefaultAsync(x => x.UserName == loginDto.Username);
+                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             // Check if the user exists
             if(user == null)
