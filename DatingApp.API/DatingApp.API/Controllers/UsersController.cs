@@ -189,7 +189,7 @@ namespace DatingApp.API.Controllers
             // Find the photo based on the id
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
 
-            //if (photo == null) return NotFound("Photo not found.");
+            if (photo == null) return NotFound("Photo not found.");
 
             // Check if photo is main photo. 
             // Note: User should not be able to delete main photo
