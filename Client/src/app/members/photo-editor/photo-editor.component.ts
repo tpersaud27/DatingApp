@@ -70,6 +70,25 @@ export class PhotoEditorComponent implements OnInit {
     });
   }
 
+  /**
+   * After we make the api call and pass in the photoId to be deleted, this will delete the photo from the database
+   * We then need to delete the photo from the current stored photos for the member
+   * @param photoId Photo Delete method
+   */
+  deletePhoto(photoId: number) {
+    this.memberService.deletePhoto(photoId).subscribe({
+      // Note: nothing is returned from this endpoint response
+      next: () => {
+        if (this.member) {
+          // This will return all photos except for the one that matches the photoId to be deleted
+          this.member.photos = this.member.photos.filter(
+            (x) => x.id !== photoId
+          );
+        }
+      },
+    });
+  }
+
   // Giving the file uploader some initial configurations
   initializeUploader() {
     this.uploader = new FileUploader({
