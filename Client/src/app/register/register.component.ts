@@ -2,7 +2,13 @@ import { Photo } from 'src/app/_models/Photo';
 import { AccountService } from './../_services/account.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -32,10 +38,37 @@ export class RegisterComponent implements OnInit {
 
   initializeForm() {
     this.registerForm = new FormGroup({
-      username: new FormControl(),
-      password: new FormControl(),
-      confirmPassword: new FormControl(),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(8),
+      ]),
+      // We need to ensure that the password and confirm password match
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        this.matchValues('password'),
+      ]),
     });
+    // This will allow us to ensure that if the password is changed even after the confirmPassword matches, any update to it will also check the validity again
+    this.registerForm.controls['password'].valueChanges.subscribe({
+      next: () => {
+        this.registerForm.controls['confirmPassword'].updateValueAndValidity();
+      },
+    });
+  }
+
+  //This will be used to validate if the confirmPassword matches the password
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      // We are comparing one password control with another password control
+      // In general we want to check if the control value of one matches that of the other
+      // notMatching will be the name of the error
+      // If the passwords match we return null otherwise we return a property notMatching with the value of true
+      return control.value === control.parent?.get(matchTo)?.value
+        ? null
+        : { notMatching: true };
+    };
   }
 
   // When the form is submitted, the data from the form will be sent to this method
