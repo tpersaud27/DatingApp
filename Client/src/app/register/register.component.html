@@ -1,85 +1,22 @@
 <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
-  <div class="form-group">
-    <input
-      [class.is-invalid]="
-        registerForm.get('username')?.errors &&
-        registerForm.get('username').touched
-      "
-      formControlName="username"
-      placeholder="Username"
-      class="form-control"
-      type="text"
-    />
-    <div class="invalid-feedback">Please enter a username</div>
-  </div>
-  <div class="form-group">
-    <input
-      [class.is-invalid]="
-        registerForm.get('password')?.errors &&
-        registerForm.get('password').touched
-      "
-      formControlName="password"
-      placeholder="Password"
-      class="form-control"
-      type="password"
-    />
-    <div
-      class="invalid-feedback"
-      *ngIf="registerForm.get('password').hasError('required')"
-    >
-      Please enter a password
-    </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="registerForm.get('password').hasError('minlength')"
-    >
-      Password must be at least 4 characters
-    </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="registerForm.get('password').hasError('maxlength')"
-    >
-      Password has a max length of 8 characters
-    </div>
-  </div>
-  <div class="form-group">
-    <input
-      [class.is-invalid]="
-        registerForm.get('confirmPassword')?.errors &&
-        registerForm.get('confirmPassword').touched
-      "
-      formControlName="confirmPassword"
-      placeholder="Confirm Password"
-      class="form-control"
-      type="password"
-    />
-    <div
-      class="invalid-feedback"
-      *ngIf="registerForm.get('confirmPassword').hasError('required')"
-    >
-      Please enter a confirmation password
-    </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="registerForm.get('confirmPassword').hasError('notMatching')"
-    >
-      Passwords must match
-    </div>
-  </div>
-  <!-- This is just to demonstrate using Input properties -->
-  <!-- <div class="form-group">
-    <label>What is your favoriate user?</label>
-    <select class="form-control">
-      <option
-        *ngFor="let user of usersFromHomeComponent"
-        [value]="user.userName"
-      >
-        {{ user.userName }}
-      </option>
-    </select>
-  </div> -->
+  <app-text-input
+    [formControl]="$any(registerForm.controls['username'])"
+    [label]="'Username'"
+  >
+  </app-text-input>
+  <app-text-input
+    [formControl]="$any(registerForm.controls['password'])"
+    [label]="'Password'"
+  >
+  </app-text-input>
+  <app-text-input
+    [formControl]="$any(registerForm.controls['confirmPassword'])"
+    [label]="'ConfirmPassword'"
+  >
+  </app-text-input>
+
   <div class="form-group text-center">
     <button class="btn btn-success mr-2" type="submit">Register</button>
     <button (click)="cancel()" class="btn btn-danger mr-2" type="button">
