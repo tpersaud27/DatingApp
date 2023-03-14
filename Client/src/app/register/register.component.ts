@@ -22,13 +22,13 @@ export class RegisterComponent implements OnInit {
   // @Input() usersFromHomeComponent: any;
   // We can use the output decorator to signal we are sending some data to the home components
   @Output() cancelRegister = new EventEmitter();
-
-  model: any = {};
-
   // This will be out reactive form used for registering the user
   registerForm: FormGroup = new FormGroup({});
-
+  // This will be the maxDate for the user age (user must be at least 18 to register)
   maxDate: Date = new Date();
+  // This will hold any errors returned from the server
+  // In theory we shouldnt be getting any errors
+  validationErrors: string[] | undefined;
 
   constructor(
     private accountService: AccountService,
@@ -86,17 +86,27 @@ export class RegisterComponent implements OnInit {
   // When the form is submitted, the data from the form will be sent to this method
   // Note: Once the user is registered we will consider them logged in
   register() {
-    this.accountService.register(this.model).subscribe({
+    // We get the date of birth from the datepicker form value
+    const dob = this.getDateOnly(
+      this.registerForm.controls['dateOfBirth'].value
+    );
+    // This will spread the registerForm values into individual properties
+    // Here we can then override the value of the dateOfBirth with the fixed version
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
+
+    this.accountService.register(values).subscribe({
       next: (response) => {
         // Instead of cancelling the form after registering, we will redirect the user to the members page
         this.router.navigateByUrl('/members');
-
-        // After registering we cancel the form
-        // this.cancel();
       },
       error: (error) => {
         console.log(error);
-        this.toastr.error(error);
+
+        // Instead of using a toastr notification
+        // We will store a array of errors that will be returned from the register service
+        this.validationErrors = error;
+
+        // this.toastr.error(error);
       },
     });
   }
@@ -105,5 +115,20 @@ export class RegisterComponent implements OnInit {
   cancel() {
     // We emit false because we want to send this to the home component
     this.cancelRegister.emit(false);
+  }
+
+  // This method will remove any unnecessary timings appending to the dateOfBirth from the date picker
+  private getDateOnly(dateOfBirth: string) {
+    if (!dateOfBirth) {
+      return;
+    }
+
+    // We will first convert the dateOfBirth to a date type
+    // Note at this point the dateOfBirth still contains the time stamp
+    let dob = new Date(dateOfBirth);
+    // This will allow us to get just the dateOfBirth with the first 10 characters removing the time stamp
+    return new Date(dob.setMinutes(dob.getMinutes() - dob.getTimezoneOffset()))
+      .toISOString()
+      .slice(0, 10);
   }
 }
