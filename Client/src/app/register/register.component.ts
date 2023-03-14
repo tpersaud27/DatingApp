@@ -27,6 +27,8 @@ export class RegisterComponent implements OnInit {
   // This will be out reactive form used for registering the user
   registerForm: FormGroup = new FormGroup({});
 
+  maxDate: Date = new Date();
+
   constructor(
     private accountService: AccountService,
     private toastr: ToastrService,
@@ -36,6 +38,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     // When the component is created we want to initialize the form
     this.initializeForm();
+    // This will set the maximum year to the current year - 18. Limiting the user age to sign up
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   initializeForm() {
