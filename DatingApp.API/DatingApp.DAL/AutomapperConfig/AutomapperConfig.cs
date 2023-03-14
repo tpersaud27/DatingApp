@@ -26,6 +26,8 @@ namespace DatingApp.DAL.AutomapperConfig
             CreateMap<Photo, PhotoDto>();
             // This will map the properties in MemberDto to AppUser entity
             CreateMap<MemberUpdateDto, AppUser>();
+            // Making the register dto to app user so when a user registers they have the correct stored values
+            CreateMap<RegisterDto, AppUser>();
         }
 
 

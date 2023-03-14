@@ -1,4 +1,5 @@
-﻿using DatingApp.DAL;
+﻿using AutoMapper;
+using DatingApp.DAL;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Interfaces;
@@ -15,12 +16,14 @@ namespace DatingApp.API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         // Note: Its the frameworks job to look at which implementation is being used for the interfaces being injected
-        public AccountController(DataContext context, ITokenService tokenService)
+        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
         {
             _context = context;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
 
@@ -40,30 +43,34 @@ namespace DatingApp.API.Controllers
                 return BadRequest("Username is taken.");
             }
 
+            // Here we map the user values from the registerDto to the AppUser
+            // At this point all values passed in from the request body are mapped
+            var user = _mapper.Map<AppUser>(registerDto);
+
             // We want to hash the password
             // When we are done using this class we want to dispose of it. This is why we are using the 'using' keyword here.
             using var hmac = new HMACSHA512();
 
-            // We need to map the Dto to the AppUser entity
-            var user = new AppUser{
-
-                // When the user first registers we want to store the username in lowercase in the DB
-                UserName = registerDto.Username.ToLower(),
-                // We had to convert the string to a byte array
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                // HMAC class comes with a randomly key, this will be used as our PasswordSalt
-                PasswordSalt = hmac.Key
-            };
+            // Note: For the code below we are this new user which is mapped into the AppUser will ...
+            // contain the values that are passed in from the body of the request
+            // when the user first registers we want to store the username in lowercase in the DB
+            user.UserName = registerDto.Username.ToLower();
+            // We had to convert the string to a byte array
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            // HMAC class comes with a randomly key, this will be used as our PasswordSalt
+            user.PasswordSalt = hmac.Key;
 
             // This will track out user in memory
             _context.Users.Add(user);
             // This will save the user to the db
             await _context.SaveChangesAsync();
 
+            // We return a UserDto because the only information we want to expose is the JWT, Username, and KnownAs
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                KnownAs = user.KnownAs,
             };
         }
 
@@ -107,7 +114,8 @@ namespace DatingApp.API.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 

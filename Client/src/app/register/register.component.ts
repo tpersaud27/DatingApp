@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Photo } from 'src/app/_models/Photo';
 import { AccountService } from './../_services/account.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,20 +84,21 @@ export class RegisterComponent implements OnInit {
   }
 
   // When the form is submitted, the data from the form will be sent to this method
+  // Note: Once the user is registered we will consider them logged in
   register() {
-    // This will output the form values
-    console.log(this.registerForm?.value);
+    this.accountService.register(this.model).subscribe({
+      next: (response) => {
+        // Instead of cancelling the form after registering, we will redirect the user to the members page
+        this.router.navigateByUrl('/members');
 
-    // this.accountService.register(this.model).subscribe({
-    //   next: (response) => {
-    //     // After registering we cancel the form
-    //     this.cancel();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //     this.toastr.error(error);
-    //   },
-    // });
+        // After registering we cancel the form
+        // this.cancel();
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastr.error(error);
+      },
+    });
   }
 
   // We want to emit a value when we click on the cancel button
