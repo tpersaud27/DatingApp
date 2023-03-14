@@ -3,13 +3,8 @@ using AutoMapper.QueryableExtensions;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
+using DatingApp.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatingApp.DAL.Implementation
 {
@@ -37,12 +32,20 @@ namespace DatingApp.DAL.Implementation
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
+            // This is the query (deferred execution)
+            var query = _context.Users
                 // When we use projection we do not need to use eager loading, this is handled for us
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                // Entity framework will not keep track of what we return
+                // This can make our application a little more efficient
+                .AsNoTracking();
+
+            // This will return a paged list
+            return await PagedList<MemberDto>.CreateAsync(query, 
+                userParams.PageNumber, userParams.PageSize);
+
         }
 
         /// <summary>

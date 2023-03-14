@@ -17,6 +17,12 @@ namespace DatingApp.Services.Extensions
             // Note: if we don't specify camel case, the json will be returned as pascal case instead
             var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
+            response.Headers.Add("Pagination", JsonSerializer.Serialize(header,jsonOptions));
+
+            // Adding cors policy so the client can get the pagination header options
+            // we need to expose the pagination header
+            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+
         }
     }
 }
