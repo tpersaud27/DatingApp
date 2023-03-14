@@ -13,10 +13,13 @@
 ## Core Features of App
 
 - Authentication and Authorization
--- JSON Web Tokens (JWTs)
+- JSON Web Tokens (JWTs)
 - Cookies and Caching
 - SSL Security
 - Exception handling middleware
+- Pagination
+- Reactive Forms
+- Photo storage and retrieval via Cloudinary
 
 ## Frontend
 
