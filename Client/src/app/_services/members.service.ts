@@ -1,7 +1,8 @@
+import { PaginatedResult } from './../_models/Pagination';
 import { Observable, of } from 'rxjs';
 import { JwtInterceptor } from './../_interceptors/jwt.interceptor';
 import { Member } from './../_models/Member';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
@@ -16,26 +17,42 @@ export class MembersService {
   // This allows us to not make extra calls when we already have the required member data
   members: Member[] = [];
 
+  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+
   constructor(private http: HttpClient) {}
 
   /**
    * Note: We use the [] brackets to signify this is a array of users
    * Note: Our interceptor will get the outgoing request and add the authentication token to the request
+   * Note: the page number and itemsPerPage are options because the server has default values
    * @returns
    */
-  getMembers() {
-    // If there are members already retrived
-    if (this.members.length > 0) {
-      // Since we need to be returning a observable we will be using 'of' from rxjs
-      // This converts the property into an observable
-      return of(this.members);
+  getMembers(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+    // If the paramters exist we will assign the values accordingly. These should match the UserParams from the client
+    if (page && itemsPerPage) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
     }
-    // If there are no members retrieved we would just return the members
-    return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
-      map((members) => {
-        this.members = members;
-        return members;
-      })
+
+    return (
+      this.http
+        // Doing this will allow us to get the response instead of just the http body
+        .get<Member[]>(this.baseUrl + 'users', { observe: 'response', params })
+        .pipe(
+          map((response) => {
+            if (response.body) {
+              // Remeber that result is the list of items we will get back, this will be the body of the request
+              this.paginatedResult.result = response.body;
+            }
+            const pagination = response.headers.get('Pagination');
+            if (pagination) {
+              // We use JSON parse to convert the json to a object
+              this.paginatedResult.pagination = JSON.parse(pagination);
+            }
+            return this.paginatedResult;
+          })
+        )
     );
   }
 
