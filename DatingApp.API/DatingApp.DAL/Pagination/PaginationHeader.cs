@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DatingApp.Services.Pagination
 {
+    /// <summary>
+    /// This will server as a object we will return in the http headers
+    /// </summary>
     public class PaginationHeader
     {
         public PaginationHeader(int currentPage, int itemsPerPage, int totalItems, int totalPages)

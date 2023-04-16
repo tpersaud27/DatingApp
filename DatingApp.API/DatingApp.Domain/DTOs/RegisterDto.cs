@@ -10,13 +10,13 @@ namespace DatingApp.Domain.DTOs
     public class RegisterDto
     {
         [Required]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
         public string KnownAs { get; set; }
 
         [Required]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
 
         [Required]
         public DateOnly? DateOfBirth { get; set; } // Optional to make required work!

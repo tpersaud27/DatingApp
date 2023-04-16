@@ -34,18 +34,28 @@ namespace DatingApp.DAL.Implementation
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            // This is the query (deferred execution)
-            var query = _context.Users
-                // When we use projection we do not need to use eager loading, this is handled for us
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                // Entity framework will not keep track of what we return
-                // This can make our application a little more efficient
-                .AsNoTracking();
+            // This will allow us to build up our query
+            var query = _context.Users.AsQueryable();
+
+            // This will exclude the currently logged in user from the query
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            // This will return all users with the specified gender
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+            
+            var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+            var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
+
+
 
             // This will return a paged list
-            return await PagedList<MemberDto>.CreateAsync(query, 
-                userParams.PageNumber, userParams.PageSize);
-
+            return await PagedList<MemberDto>.CreateAsync(
+                query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider), 
+                userParams.PageNumber, 
+                userParams.PageSize);
         }
 
         /// <summary>

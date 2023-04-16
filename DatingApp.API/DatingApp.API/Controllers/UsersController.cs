@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace DatingApp.API.Controllers
@@ -36,6 +37,19 @@ namespace DatingApp.API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
+            // Get the current user
+            var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            // Add the current user to the userParams
+            userParams.CurrentUsername = currentUser.UserName;
+
+            // We want users to select a gender, if they do not select a gender we will return a default
+            if(string.IsNullOrEmpty(userParams.Gender)) 
+            {
+                // Default we will just return the opposite gender
+                userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+            
+            }
+
             var users = await _userRepository.GetMembersAsync(userParams);
             // Adding the pagination header
             Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
