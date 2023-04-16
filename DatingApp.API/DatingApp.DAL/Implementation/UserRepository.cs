@@ -48,8 +48,13 @@ namespace DatingApp.DAL.Implementation
 
             query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
-
-
+            // We will order the query results based on the time the account was created
+            // Or the default case is when the user was last active
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive),
+            };
 
             // This will return a paged list
             return await PagedList<MemberDto>.CreateAsync(

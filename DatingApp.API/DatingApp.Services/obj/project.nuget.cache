@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "axde3nTMdD2MYbsXnaOpaxEPxKPN0nTp36pZFTZ4cRcyL/EZsRpF6o5vkcLJRCfqBfC+b5yBQ6GLlDn/K+AsXQ==",
+  "dgSpecHash": "XRcuIC2tDEadRojkHI8WCt60ewVgWhCcDONrhDiGnTIWo5ncsMsmA8SbID+9XEcYdD7Noa6R5sX+JXrypvN6Jg==",
   "success": true,
   "projectFilePath": "C:\\Users\\tpers\\Desktop\\DatingAppNew\\DatingApp.API\\DatingApp.Services\\DatingApp.Services.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,8 @@
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
+    "C:\\Users\\tpers\\.nuget\\packages\\microsoft.aspnetcore.mvc.abstractions\\2.2.0\\microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\tpers\\.nuget\\packages\\microsoft.aspnetcore.routing.abstractions\\2.2.0\\microsoft.aspnetcore.routing.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.2\\microsoft.data.sqlite.core.7.0.2.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.2\\microsoft.entityframeworkcore.7.0.2.nupkg.sha512",
@@ -35,6 +37,7 @@
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.15.1\\microsoft.identitymodel.protocols.6.15.1.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.15.1\\microsoft.identitymodel.protocols.openidconnect.6.15.1.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.26.0\\microsoft.identitymodel.tokens.6.26.0.nupkg.sha512",
+    "C:\\Users\\tpers\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
@@ -42,6 +45,7 @@
     "C:\\Users\\tpers\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.2\\sqlitepclraw.provider.e_sqlite3.2.1.2.nupkg.sha512",
+    "C:\\Users\\tpers\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.26.0\\system.identitymodel.tokens.jwt.6.26.0.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\tpers\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",

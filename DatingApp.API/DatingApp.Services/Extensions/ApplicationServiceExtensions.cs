@@ -2,6 +2,7 @@
 using DatingApp.DAL.AutomapperConfig;
 using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
+using DatingApp.Sercvices.Middleware;
 using DatingApp.Services.CloudinaryService;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
@@ -44,6 +45,8 @@ namespace DatingApp.Services.Extensions
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             // Cloudinary Service
             services.AddScoped<IPhotoService, PhotoService>();
+            // Updating user last active property
+            services.AddScoped<LogUserActivity>();
 
 
 
