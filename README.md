@@ -17,6 +17,10 @@
 - Cookies and Caching
 - SSL Security
 - Exception handling middleware
+- Extension Methods
+- Action Filters
+- Auth Guards
+- Http Interceptors
 - Pagination
 - Sorting
 - Filtering

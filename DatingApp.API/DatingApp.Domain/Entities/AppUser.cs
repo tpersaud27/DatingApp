@@ -31,6 +31,10 @@ namespace DatingApp.Domain.Entities
         public string Country { get; set; }
         public List<Photo> Photos { get; set; } = new List<Photo>();
 
+        public List<UserLike> LikedByUsers { get; set; }
+        public List<UserLike> LikedUsers { get; set; }
+
+
         /// <summary>
         /// This method will calculate the age of a user
         /// </summary>
@@ -39,6 +43,8 @@ namespace DatingApp.Domain.Entities
         //{
         //    return DateOfBirth.CalculateAge();
         //}
+
+
 
 
 
