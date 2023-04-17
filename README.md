@@ -18,8 +18,11 @@
 - SSL Security
 - Exception handling middleware
 - Pagination
+- Sorting
+- Filtering
 - Reactive Forms
 - Photo storage and retrieval via Cloudinary
+- Messaging through SignalR
 
 ## Frontend
 
