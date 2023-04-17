@@ -39,8 +39,15 @@ namespace DatingApp.Services.Extensions
             services.AddScoped<ITokenService, TokenService>();
             // Automapper Config
             services.AddAutoMapper(typeof(AutomapperConfig));
+
+            // Repositories
+
             // UserRepository
             services.AddScoped<IUserRepository, UserRepository>();
+            // LikesRepository
+            services.AddScoped<ILikesRepository, ILikesRepository>();
+
+
             // Cloudinary Config
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             // Cloudinary Service
