@@ -1,12 +1,13 @@
+import { User } from 'src/app/_models/User';
 import { PaginatedResult } from './../_models/Pagination';
-import { Observable, of } from 'rxjs';
-import { JwtInterceptor } from './../_interceptors/jwt.interceptor';
+import { of } from 'rxjs';
 import { Member } from './../_models/Member';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { UserParams } from '../_models/UserParams';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,39 @@ export class MembersService {
 
   memberCache = new Map();
 
-  constructor(private http: HttpClient) {}
+  user: User | undefined;
+  userParams: UserParams | undefined;
+
+  constructor(
+    private http: HttpClient,
+    private accountService: AccountService
+  ) {
+    // Here we will get the current user and initialize our userParams for pagination
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
+        if (user) {
+          this.userParams = new UserParams(user);
+          this.user = user;
+        }
+      },
+    });
+  }
+
+  getUserParams() {
+    return this.userParams;
+  }
+
+  setUserParams(params: UserParams) {
+    this.userParams = params;
+  }
+
+  resetUserParams() {
+    if (this.user) {
+      this.userParams = new UserParams(this.user);
+      return this.userParams;
+    }
+    return;
+  }
 
   /**
    * Note: We use the [] brackets to signify this is a array of users
