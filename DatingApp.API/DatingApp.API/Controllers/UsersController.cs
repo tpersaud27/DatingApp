@@ -51,7 +51,8 @@ namespace DatingApp.API.Controllers
             }
 
             var users = await _userRepository.GetMembersAsync(userParams);
-            // Adding the pagination header
+            // Adding the pagination header to the response
+            // This is so the client can access the pagination properties
             Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
                 users.TotalCount, users.TotalPages));
 

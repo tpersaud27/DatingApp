@@ -36,6 +36,7 @@
 - Ngx Spinner <https://www.npmjs.com/package/ngx-spinner>
 - Ng2 File Upload <https://valor-software.com/ng2-file-upload/>
 - Ngx Bootstrap date picker
+- Ngx Time Ago <https://www.npmjs.com/package/ngx-timeago>
 
 ## Backend
 
