@@ -18,6 +18,8 @@ export class MembersService {
   // This allows us to not make extra calls when we already have the required member data
   members: Member[] = [];
 
+  memberCache = new Map();
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -27,6 +29,11 @@ export class MembersService {
    * @returns
    */
   getMembers(userParams: UserParams) {
+    // We will check if this query has been made before
+    const response = this.memberCache.get(Object.values(userParams).join('-'));
+
+    if (response) return of(response);
+
     let params = this.getPaginationHeaders(
       userParams.pageNumber,
       userParams.pageSize
@@ -38,7 +45,16 @@ export class MembersService {
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResults<Member[]>(this.baseUrl + 'users', params);
+    return this.getPaginatedResults<Member[]>(
+      this.baseUrl + 'users',
+      params
+    ).pipe(
+      map((response) => {
+        // We will set the memberCache
+        this.memberCache.set(Object.values(userParams).join('-'), response);
+        return response;
+      })
+    );
   }
 
   // We made this method more generic using T
