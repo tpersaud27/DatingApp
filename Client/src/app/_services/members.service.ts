@@ -57,6 +57,36 @@ export class MembersService {
     );
   }
 
+  getMemberByUserName(username: string) {
+    // This will flatten the arrays into one array holding the result
+    // This becomes a array of members
+    const member = [...this.memberCache.values()]
+      .reduce((arr, element) => arr.concat(element.result), [])
+      .find((member: Member) => member.userName === username);
+
+    if (member) return of(member);
+
+    return this.http.get<Member>(this.baseUrl + 'users/username/' + username);
+  }
+
+  updateMember(member: Member) {
+    return this.http.put(this.baseUrl + 'users', member).pipe(
+      map(() => {
+        const index = this.members.indexOf(member);
+        // This will update the current member with the new information
+        this.members[index] = { ...this.members[index], ...member };
+      })
+    );
+  }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
   // We made this method more generic using T
   private getPaginatedResults<T>(url: string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T[]> = new PaginatedResult<T[]>();
@@ -90,33 +120,6 @@ export class MembersService {
     params = params.append('pageSize', pageSize);
 
     return params;
-  }
-
-  getMemberByUserName(username: string) {
-    // We can check if the user is found in the members retrieved
-    const member = this.members.find((x) => x.userName === username);
-    if (member) {
-      return of(member);
-    }
-    return this.http.get<Member>(this.baseUrl + 'users/username/' + username);
-  }
-
-  updateMember(member: Member) {
-    return this.http.put(this.baseUrl + 'users', member).pipe(
-      map(() => {
-        const index = this.members.indexOf(member);
-        // This will update the current member with the new information
-        this.members[index] = { ...this.members[index], ...member };
-      })
-    );
-  }
-
-  setMainPhoto(photoId: number) {
-    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
-  }
-
-  deletePhoto(photoId: number) {
-    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 
   // Temp method to pass token in the http header
