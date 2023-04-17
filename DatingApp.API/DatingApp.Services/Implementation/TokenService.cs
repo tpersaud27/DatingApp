@@ -28,7 +28,8 @@ namespace DatingApp.Services.Implementation
             // These are the claims we want to include in the JWT
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             };
 
             // These are the signing credentials

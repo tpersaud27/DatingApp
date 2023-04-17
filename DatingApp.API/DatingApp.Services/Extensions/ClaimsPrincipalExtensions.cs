@@ -9,6 +9,12 @@ namespace DatingApp.Services.Extensions
         public static string GetUsername(this ClaimsPrincipal user)
         {
             // This 'User' is from System.Security.Claim.Claims. 
+            return user.FindFirst(ClaimTypes.Name)?.Value;
+        }
+
+        public static string GetUserId(this ClaimsPrincipal user)
+        {
+            // This 'User' is from System.Security.Claim.Claims. 
             return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
 
