@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using DatingApp.DAL;
-using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
@@ -8,11 +6,7 @@ using DatingApp.Services.Extensions;
 using DatingApp.Services.Interfaces;
 using DatingApp.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace DatingApp.API.Controllers
 {
