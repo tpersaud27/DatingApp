@@ -1,8 +1,10 @@
 ﻿using DatingApp.API.DTOs;
+using DatingApp.API.Pagination;
 using DatingApp.DAL;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
+using DatingApp.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Implementation
@@ -35,7 +37,7 @@ namespace DatingApp.API.Implementation
         /// <param name="predicate">This can be the source user or target user</param>
         /// <param name="userId">This can be the sourceuserid or the targetuserid</param>
         /// <returns></returns>
-        public async Task<IEnumerable<LikesDto>> GetUserLikes(string predicate, int userId)
+        public async Task<PagedList<LikesDto>> GetUserLikes(LikesParams likesParams)
         {
             // This will start building a query that returns a list ordering the users by their username
             // AsQueryable means it has not been executed yet
@@ -43,32 +45,35 @@ namespace DatingApp.API.Implementation
 
             var likes = _context.Likes.AsQueryable(); 
 
-            if(predicate == "liked")
+            if(likesParams.Predicate == "liked")
             {
                 // Get the likes that are liked by the currently logged in user
-                likes = likes.Where(like => like.SourceUserId == userId);
+                likes = likes.Where(like => like.SourceUserId == likesParams.UserId);
                 // This will get users that are liked
                 users = likes.Select(like => like.TargetUser);
             }
 
-            if (predicate == "likedBy")
+            if (likesParams.Predicate == "likedBy")
             {
                 // Get the likes that are liked by the currently logged in user
-                likes = likes.Where(like => like.TargetUserId == userId);
+                likes = likes.Where(like => like.TargetUserId == likesParams.UserId);
                 users = likes.Select(like => like.SourceUser);
             }
 
             // executing the query
             // This will give us a list of users that are liked or likedBy
-            return await users.Select(user => new LikesDto
+            var likedUsers = users.Select(user => new LikesDto
             {
                 UserName = user.UserName,
                 KnownAs = user.KnownAs,
                 Age = user.DateOfBirth.CalculateAge(),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
-                City= user.City,
-                Id= user.Id
-            }).ToListAsync();
+                City = user.City,
+                Id = user.Id
+            });
+
+            // This will return a paged list
+            return await PagedList<LikesDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
         }
             
         /// <summary>

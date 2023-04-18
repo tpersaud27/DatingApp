@@ -1,8 +1,10 @@
 ﻿using DatingApp.API.DTOs;
+using DatingApp.API.Pagination;
 using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
+using DatingApp.Services.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
@@ -25,7 +27,7 @@ namespace DatingApp.API.Controllers
         {
             // This is the sourceUserId that will be liking another user
             // We get this from the token claims (this is the logged in user)
-            var sourceUserId = int.Parse(User.GetUserId());
+            var sourceUserId = User.GetUserId();
             // This is the user we will be liking
             var likedUser = await _userRepository.GetUserByUsernameAsync(username);
             // Getting the sourceUser
@@ -67,9 +69,15 @@ namespace DatingApp.API.Controllers
         /// <param name="predicate">this can be the user or liked by users</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LikesDto>>> GetUserLikes(string predicate)
+        public async Task<ActionResult<PagedList<LikesDto>>> GetUserLikes([FromQuery] LikesParams likesParams)
         {
-            var users = await _likesRepository.GetUserLikes(predicate, int.Parse(User.GetUserId()));
+
+            likesParams.UserId = User.GetUserId();
+
+            var users = await _likesRepository.GetUserLikes(likesParams);
+
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages));
 
             return Ok(users);
         }

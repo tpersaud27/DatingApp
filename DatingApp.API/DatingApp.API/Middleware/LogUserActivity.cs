@@ -20,7 +20,7 @@ namespace DatingApp.Sercvices.Middleware
             var userId = resultContext.HttpContext.User.GetUserId();
             var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
 
-            var user = await repo.GetUserByIdAsync(int.Parse(userId));
+            var user = await repo.GetUserByIdAsync(userId);
               
             // This will allow us to update the user last active property after the request is completed
             user.LastActive = DateTime.UtcNow;

@@ -1,5 +1,7 @@
 ﻿using DatingApp.API.DTOs;
+using DatingApp.API.Pagination;
 using DatingApp.Domain.Entities;
+using DatingApp.Services.Pagination;
 
 namespace DatingApp.DAL.Interfaces
 {
@@ -23,7 +25,7 @@ namespace DatingApp.DAL.Interfaces
         /// <param name="predicate"> This can either be the user likes or the users who liked the user</param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IEnumerable<LikesDto>> GetUserLikes(string predicate, int userId);
+        Task<PagedList<LikesDto>> GetUserLikes(LikesParams likesParams);
 
 
 

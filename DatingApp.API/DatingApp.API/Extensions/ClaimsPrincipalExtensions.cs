@@ -12,10 +12,10 @@ namespace DatingApp.Services.Extensions
             return user.FindFirst(ClaimTypes.Name)?.Value;
         }
 
-        public static string GetUserId(this ClaimsPrincipal user)
+        public static int GetUserId(this ClaimsPrincipal user)
         {
             // This 'User' is from System.Security.Claim.Claims. 
-            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.Parse( user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
 
     }

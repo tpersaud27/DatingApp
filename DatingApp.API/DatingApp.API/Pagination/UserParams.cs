@@ -1,8 +1,9 @@
-﻿namespace DatingApp.Services.Pagination
-{
-    public class UserParams
-    {
+﻿using DatingApp.API.Pagination;
 
+namespace DatingApp.Services.Pagination
+{
+    public class UserParams: PaginationParams
+    {
 
         // This is going to be used for filtering
         // We want to exclude the current user from the filtered results
