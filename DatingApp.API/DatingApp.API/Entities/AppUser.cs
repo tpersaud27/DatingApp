@@ -1,4 +1,5 @@
-﻿using DatingApp.Services.Extensions;
+﻿using DatingApp.API.Entities;
+using DatingApp.Services.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +34,9 @@ namespace DatingApp.Domain.Entities
 
         public List<UserLike> LikedByUsers { get; set; }
         public List<UserLike> LikedUsers { get; set; }
+
+        public List<Message> MessagesSent { get; set; }
+        public List<Message> MessagesReceived { get; set; }
 
 
         /// <summary>

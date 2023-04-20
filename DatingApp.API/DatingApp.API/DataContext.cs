@@ -1,4 +1,5 @@
-﻿using DatingApp.Domain.Entities;
+﻿using DatingApp.API.Entities;
+using DatingApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.DAL
@@ -29,6 +30,8 @@ namespace DatingApp.DAL
 
         public DbSet<UserLike> Likes { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -49,6 +52,20 @@ namespace DatingApp.DAL
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.TargetUserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Message>()
+                // Have one recipient
+                .HasOne(u => u.Recipient)
+                // With many messages received
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                // Have one sender
+                .HasOne(u => u.Sender)
+                // With many messages sent
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DatingApp.API.Implementation;
+using DatingApp.API.Interfaces;
 
 namespace DatingApp.Services.Extensions
 {
@@ -47,6 +48,8 @@ namespace DatingApp.Services.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             // LikesRepository
             services.AddScoped<ILikesRepository, LikesRepository>();
+            // MessageRepository
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
 
             // Cloudinary Config
