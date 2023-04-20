@@ -1,18 +1,24 @@
-﻿using DatingApp.API.DTOs;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
 using DatingApp.API.Interfaces;
+using DatingApp.API.Pagination;
 using DatingApp.DAL;
 using DatingApp.Services.Pagination;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Implementation
 {
     public class MessageRepository : IMessageRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public MessageRepository(DataContext context)
+        public MessageRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void AddMessage(Message message)
@@ -35,10 +41,59 @@ namespace DatingApp.API.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId)
+        public async Task<PagedList<MessageDto>> GetMessageForUser(MessageParams messageParams)
         {
-            throw new NotImplementedException();
+            // We want the most recent first
+            var query = _context.Messages
+                .OrderByDescending(x => x.MessageSent)
+                .AsQueryable();
+
+            query = messageParams.Container switch
+            {
+                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username),
+                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username),
+                // Default case is unread
+                _ => query.Where(u => u.RecipientUsername == messageParams.Username && u.DateRead == null)
+            };
+
+            // Map the query into out messageDto
+            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+
+            return await PagedList<MessageDto>
+                .CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
+
+        public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
+        {
+            var messages = await _context.Messages
+                .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                .Where(
+                    m => m.RecipientUsername == currentUsername 
+                    && m.SenderUserName == recipientUsername
+                    || m.RecipientUsername == recipientUsername 
+                    && m.SenderUserName == currentUsername
+                )
+                .OrderByDescending(m => m.MessageSent)
+                .ToListAsync();
+
+            // We will not go to the database to get these unread messages. We will get the from the query above
+            var unreadMessages = messages.Where(m => m.DateRead == null
+                && m.RecipientUsername == currentUsername).ToList();
+
+            if(unreadMessages.Any())
+            {
+                // Loop through the unread messages and make then read
+                foreach (var message in unreadMessages)
+                {
+                    message.DateRead = DateTime.UtcNow;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+        }
+    
 
         public async Task<bool> SaveAllAsync()
         {

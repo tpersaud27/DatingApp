@@ -1,5 +1,6 @@
 ﻿using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
+using DatingApp.API.Pagination;
 using DatingApp.Services.Pagination;
 
 namespace DatingApp.API.Interfaces
@@ -13,10 +14,10 @@ namespace DatingApp.API.Interfaces
 
         Task<Message> GetMessage(int id);
 
-        Task<PagedList<MessageDto>> GetMessageForUser();
+        Task<PagedList<MessageDto>> GetMessageForUser(MessageParams messageParams);
 
         // Returns the list of messages between two users
-        Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId);
+        Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientName);
 
         Task<bool> SaveAllAsync();
 

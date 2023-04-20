@@ -26,7 +26,7 @@ namespace DatingApp.API.Entities
         // This is the message content
         public string Content { get; set; }
 
-        public DateTime? DateRead { get; set; }
+        public DateTime? DateRead { get; set; } 
         public DateTime MessageSent { get; set; } = DateTime.UtcNow;
         
         // We will only delete the message from the database if both of these values are true

@@ -4,9 +4,11 @@ using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
 using DatingApp.API.Implementation;
 using DatingApp.API.Interfaces;
+using DatingApp.API.Pagination;
 using DatingApp.DAL.Implementation;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Services.Extensions;
+using DatingApp.Services.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
@@ -70,5 +72,30 @@ namespace DatingApp.API.Controllers
             return BadRequest("Failed to send message");
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult<PagedList<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+        {
+            messageParams.Username = User.GetUsername();
+            var messages = await _messageRepository.GetMessageForUser(messageParams);
+
+            Response.AddPaginationHeader(new PaginationHeader(messages.CurrentPage, messages.PageSize,
+                messages.TotalCount, messages.TotalPages));
+
+            return messages;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"> This is the username of the person the user would be clicking on</param>
+        /// <returns></returns>
+        [HttpGet("thread/{username}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        {
+            var currentUsername = User.GetUsername();
+
+            return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
+        }
     }
 }
