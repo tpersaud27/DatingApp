@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DatingApp.API.DTOs;
+using DatingApp.API.Entities;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
@@ -28,6 +30,15 @@ namespace DatingApp.DAL.AutomapperConfig
             CreateMap<MemberUpdateDto, AppUser>();
             // Making the register dto to app user so when a user registers they have the correct stored values
             CreateMap<RegisterDto, AppUser>();
+
+
+            // This map the message properties into out messageDto
+            // We need to notify Automapper of the Sender and Recipient PhotoUrl
+            CreateMap<Message, MessageDto>()
+                .ForMember(d => d.SenderPhotoUrl, o => o.MapFrom(src => src.Sender.Photos
+                    .FirstOrDefault(x => x.IsMain).Url))
+                .ForMember(d => d.RecipientPhotoUrl, o => o.MapFrom(src => src.Recipient.Photos
+                    .FirstOrDefault(x => x.IsMain).Url));
         }
 
 
