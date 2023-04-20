@@ -1,12 +1,11 @@
-﻿using DatingApp.API.Entities;
+﻿using DatingApp.API.DTOs;
+using DatingApp.API.Entities;
 using DatingApp.Services.Pagination;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Interfaces
 {
     public interface IMessageRepository
     {
-
 
         void AddMessage(Message message);
 
@@ -19,6 +18,7 @@ namespace DatingApp.API.Interfaces
         // Returns the list of messages between two users
         Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId);
 
+        Task<bool> SaveAllAsync();
 
 
     }
