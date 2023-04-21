@@ -65,6 +65,8 @@ namespace DatingApp.API.Implementation
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
+            // This will allow us to retrieve messages between the two users
+            // These are messages that either the current user or recipient as sent to one another
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)

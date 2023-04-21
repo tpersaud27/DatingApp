@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="messages.length === 0">
+      No messages yet... send a message by using the message box below
+    </div>
+
+    <ul *ngIf="messages.length > 0" class="chat">
+      <li *ngFor="let message of messages">
+        <div>
+          <span class="chat-img float-end">
+            <img
+              class="rounded-circle"
+              src="{{ message.senderPhotoUrl || './assets/user.png' }}"
+              alt="Sender Photo"
+            />
+          </span>
+
+          <div class="chat-body">
+            <div class="header">
+              <small class="text-muted">
+                <span class="fa fa-clock-o"
+                  >{{ message.messageSent | timeago }}
+                </span>
+
+                <!-- We want to show this is the message is not read and check if the message is not from the sender -->
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    !message.dateRead && message.senderUserName !== username
+                  "
+                  >(unread)</span
+                >
+
+                <span
+                  class="text-success"
+                  *ngIf="
+                    message.dateRead && message.senderUserName !== username
+                  "
+                  >(read {{ message.dateRead | timeago }})</span
+                >
+              </small>
+            </div>
+
+            <p>{{ message.content }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- This is how the user will be sending their message -->
+  <div class="card-footer">
+    <form>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control input-sm"
+          placeholder="Send a private message"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
