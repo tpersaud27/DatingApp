@@ -97,5 +97,49 @@ namespace DatingApp.API.Controllers
 
             return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id)
+        {
+            
+            // Get the User
+            var username = User.GetUsername();
+            var user = _userRepository.GetUserByUsernameAsync(username);
+            // Get the message based on the id
+            var message = await _messageRepository.GetMessage(id);
+
+            // We will need to check if both users have deleted the message on their ends
+            // We will need to check if the user trying to delete the message is either the sender of receiver of the message
+            // To do so we will just ensure the person trying to delete the message is not someone else
+            if(message.SenderUserName != username || message.RecipientUsername != username)
+            {
+                return Unauthorized("Not authorized to delete this message");
+            }
+            
+            // Set the deleted flag to be true
+            if(message.SenderUserName == username)
+            {
+                message.SenderDeleted= true;
+            }
+
+            if(message.RecipientUsername == username)
+            {
+                message.RecipientDeleted= true;
+            }
+
+            // If both parties have the delete flag set to true then we delete
+            if(message.SenderDeleted == true && message.RecipientDeleted == true)
+            {
+                // Delete the message
+                 _messageRepository.DeleteMessage(message);
+            }
+            
+            // Check if the changes were saved
+            if(await _messageRepository.SaveAllAsync())
+            {
+                return Ok();
+            }
+            return BadRequest("Something went wrong deleting message");
+        }
     }
 }

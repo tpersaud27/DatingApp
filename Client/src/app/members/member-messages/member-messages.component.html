@@ -19,7 +19,7 @@
             <div class="header">
               <small class="text-muted">
                 <span class="fa fa-clock-o"
-                  >{{ message.messageSent | timeago }}
+                  >{{ message.messageSent + "Z" | timeago }}
                 </span>
 
                 <!-- We want to show this is the message is not read and check if the message is not from the sender -->
@@ -36,7 +36,7 @@
                   *ngIf="
                     message.dateRead && message.senderUserName !== username
                   "
-                  >(read {{ message.dateRead | timeago }})</span
+                  >(read {{ message.dateRead + "Z" | timeago }})</span
                 >
               </small>
             </div>

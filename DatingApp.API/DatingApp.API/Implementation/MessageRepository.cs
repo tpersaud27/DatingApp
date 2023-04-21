@@ -41,6 +41,11 @@ namespace DatingApp.API.Implementation
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns all messages from the user
+        /// </summary>
+        /// <param name="messageParams"></param>
+        /// <returns></returns>
         public async Task<PagedList<MessageDto>> GetMessageForUser(MessageParams messageParams)
         {
             // We want the most recent first
@@ -50,10 +55,11 @@ namespace DatingApp.API.Implementation
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username),
-                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username),
+                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username && u.SenderDeleted == false),
                 // Default case is unread
-                _ => query.Where(u => u.RecipientUsername == messageParams.Username && u.DateRead == null)
+                _ => query.Where(u => u.RecipientUsername == messageParams.Username && u.DateRead == null 
+                        && u.RecipientDeleted == false)
             };
 
             // Map the query into out messageDto
@@ -63,6 +69,12 @@ namespace DatingApp.API.Implementation
                 .CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
+        /// <summary>
+        /// Returns messages between two parties
+        /// </summary>
+        /// <param name="currentUsername"></param>
+        /// <param name="recipientUsername"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
             // This will allow us to retrieve messages between the two users
@@ -72,8 +84,10 @@ namespace DatingApp.API.Implementation
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
                 .Where(
                     m => m.RecipientUsername == currentUsername 
+                    && m.RecipientDeleted == false
                     && m.SenderUserName == recipientUsername
                     || m.RecipientUsername == recipientUsername 
+                    && m.SenderDeleted == false
                     && m.SenderUserName == currentUsername
                 )
                 .OrderByDescending(m => m.MessageSent)
