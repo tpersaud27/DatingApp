@@ -25,6 +25,18 @@ export class MessageService {
   getMessageThread(username: string) {
     return this.httpClient.get<Message[]>(
       this.baseUrl + 'messages/thread/' + username
-    );  
+    );
+  }
+
+  /**
+   * Note: This endpoint will return a MessageDto for us
+   * @param username This is the username of the recipient
+   * @param content This is the content of the messaging the current user will send to the recipient
+   */
+  sendMessage(username: string, content: string) {
+    return this.httpClient.post<Message>(this.baseUrl + 'messages', {
+      recipientUsername: username,
+      content: content,
+    });
   }
 }
