@@ -17,7 +17,9 @@ import { Message } from 'src/app/_models/Message';
   styleUrls: ['./member-detail.component.css'],
 })
 export class MemberDetailComponent implements OnInit {
-  @ViewChild('memberTabs') memberTabs?: TabsetComponent;
+  // Note: We do not have access to viewchild properties until after the component is constructed
+  // Instead of waiting for the view to load dynamically it will be statically loaded
+  @ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
   activeTab?: TabDirective;
   messages: Message[] = [];
 
@@ -33,6 +35,14 @@ export class MemberDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMember();
+
+    // Access the route to get the queryParams
+    // This will select the specified tab in the query params
+    this.route.queryParams.subscribe({
+      next: (params) => {
+        params['tab'] && this.selectTab(params['tab']);
+      },
+    });
 
     this.galleryOptions = [
       {
@@ -77,6 +87,14 @@ export class MemberDetailComponent implements OnInit {
         this.galleryImages = this.getImages();
       },
     });
+  }
+
+  // When this is passed in a heading, it will make that tab activated
+  // The use case here is when a user is clicking on the messages button it will activate the messages tab
+  selectTab(heading: string) {
+    if (this.memberTabs) {
+      this.memberTabs.tabs.find((x) => x.heading === heading)!.active = true;
+    }
   }
 
   loadMessages() {
