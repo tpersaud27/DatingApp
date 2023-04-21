@@ -111,7 +111,7 @@ namespace DatingApp.API.Controllers
             // We will need to check if both users have deleted the message on their ends
             // We will need to check if the user trying to delete the message is either the sender of receiver of the message
             // To do so we will just ensure the person trying to delete the message is not someone else
-            if(message.SenderUserName != username || message.RecipientUsername != username)
+            if(message.SenderUserName != username && message.RecipientUsername != username)
             {
                 return Unauthorized("Not authorized to delete this message");
             }

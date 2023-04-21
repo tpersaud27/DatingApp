@@ -82,7 +82,13 @@
           {{ message.messageSent + "Z" | timeago }}
         </td>
         <td class="align-middle">
-          <button class="btn btn-danger">Delete</button>
+          <button
+            class="btn btn-danger"
+            (click)="$event.stopPropagation()"
+            (click)="deleteMessage(message.id)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
