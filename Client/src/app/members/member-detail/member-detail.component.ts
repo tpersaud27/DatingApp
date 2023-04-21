@@ -23,7 +23,7 @@ export class MemberDetailComponent implements OnInit {
   activeTab?: TabDirective;
   messages: Message[] = [];
 
-  member: Member | undefined;
+  member: Member = {} as Member;
   galleryImages: NgxGalleryImage[] = [];
   galleryOptions: NgxGalleryOptions[] = [];
 
@@ -34,7 +34,14 @@ export class MemberDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadMember();
+    // this.loadMember();
+    // Instead of using loadMember we will get getting it from our route instead
+    // This is done by using route resolvers
+    this.route.data.subscribe({
+      next: (data) => {
+        this.member = data['member'];
+      },
+    });
 
     // Access the route to get the queryParams
     // This will select the specified tab in the query params
@@ -54,6 +61,8 @@ export class MemberDetailComponent implements OnInit {
         preview: false,
       },
     ];
+
+    this.galleryImages = this.getImages();
   }
 
   getImages() {
@@ -72,21 +81,6 @@ export class MemberDetailComponent implements OnInit {
     }
 
     return imageUrls;
-  }
-
-  loadMember() {
-    // This will assign userName to the route which has the paramter username
-    const userName = this.route.snapshot.paramMap.get('username');
-
-    if (!userName) return;
-
-    this.memberService.getMemberByUserName(userName).subscribe({
-      next: (member) => {
-        this.member = member;
-        // We want to ensure we have a member before we load the photos, thats why we are loading them here
-        this.galleryImages = this.getImages();
-      },
-    });
   }
 
   // When this is passed in a heading, it will make that tab activated
@@ -115,4 +109,20 @@ export class MemberDetailComponent implements OnInit {
       this.loadMessages();
     }
   }
+
+  // This is no longer needed because we will get the member from the route resolver
+  // loadMember() {
+  //   // This will assign userName to the route which has the paramter username
+  //   const userName = this.route.snapshot.paramMap.get('username');
+
+  //   if (!userName) return;
+
+  //   this.memberService.getMemberByUserName(userName).subscribe({
+  //     next: (member) => {
+  //       this.member = member;
+  //       // We want to ensure we have a member before we load the photos, thats why we are loading them here
+  //       this.galleryImages = this.getImages();
+  //     },
+  //   });
+  // }
 }
