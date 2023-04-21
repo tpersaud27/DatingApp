@@ -16,6 +16,8 @@ export class MessagesComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
 
+  isLoading: boolean = false;
+
   constructor(private messageService: MessageService) {}
 
   ngOnInit(): void {
@@ -23,12 +25,15 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.isLoading = true;
+
     this.messageService
       .getMessages(this.pageNumber, this.pageSize, this.container)
       .subscribe({
         next: (response) => {
           this.messages = response.result;
           this.pagination = response.pagination;
+          this.isLoading = false;
         },
       });
   }

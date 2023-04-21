@@ -50,6 +50,7 @@
     </thead>
     <tbody class="align-middle">
       <tr
+        [hidden]="isLoading"
         *ngFor="let message of messages"
         routerLink="{{
           container === 'Outbox'
@@ -92,6 +93,7 @@
   *ngIf="pagination && messages && messages.length > 0"
 >
   <pagination
+    [hidden]="isLoading"
     [boundaryLinks]="true"
     [totalItems]="pagination.totalItems"
     [itemsPerPage]="pagination.itemsPerPage"
