@@ -1,5 +1,7 @@
 ﻿using DatingApp.API.Entities;
 using DatingApp.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.DAL
@@ -7,7 +9,15 @@ namespace DatingApp.DAL
     /// <summary>
     /// This will be used as a service in the project. 
     /// </summary>
-    public class DataContext: DbContext
+    public class DataContext: IdentityDbContext<
+        AppUser,
+        AppRole, 
+        int, 
+        IdentityUserClaim<int>, 
+        AppUserRole, 
+        IdentityUserLogin<int>, 
+        IdentityRoleClaim<int>,
+        IdentityUserToken<int>>
     {
 
         public DataContext()
@@ -25,8 +35,13 @@ namespace DatingApp.DAL
         /// <summary>
         /// This is the Users table
         /// The columns of the table will be that of AppUser( Id and UserName)
+        /// 
+        /// 
+        /// Note: IdentityDbContent already has a table for users, so we will be using that one
+        /// 
         /// </summary>
-        public DbSet<AppUser> Users { get; set; }
+        /// 
+        ///public DbSet<AppUser> Users { get; set; }
 
         public DbSet<UserLike> Likes { get; set; }
 
@@ -35,6 +50,23 @@ namespace DatingApp.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+
+            // this provide the AppUser with many relationships of userRoles, associated to one user
+            // where the foreign key is the user id and must be required (not null)
+            builder.Entity<AppUser>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
+
+            // this provide the AppRole with many relationships of UserRoles, associated to one role
+            // where the foreign key is the role id and must be required (not null)
+            builder.Entity<AppRole>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
 
             builder.Entity<UserLike>()
                 .HasKey(primaryKey => new { primaryKey.SourceUserId, primaryKey.TargetUserId });
