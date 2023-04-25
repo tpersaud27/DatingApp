@@ -1,10 +1,12 @@
 using DatingApp.DAL;
 using DatingApp.DAL.UserSeedData;
+using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
 using DatingApp.Services.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -66,9 +68,12 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
     // This will create a database with the seed data
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(context);
+    await Seed.SeedUsers(userManager);
 
 }
 catch(Exception ex)

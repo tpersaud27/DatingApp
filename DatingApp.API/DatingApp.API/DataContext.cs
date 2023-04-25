@@ -1,8 +1,8 @@
 ﻿using DatingApp.API.Entities;
 using DatingApp.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DatingApp.DAL
 {
@@ -12,8 +12,8 @@ namespace DatingApp.DAL
     public class DataContext: IdentityDbContext<
         AppUser,
         AppRole, 
-        int, 
-        IdentityUserClaim<int>, 
+        int,
+        IdentityUserClaim<int>,
         AppUserRole, 
         IdentityUserLogin<int>, 
         IdentityRoleClaim<int>,

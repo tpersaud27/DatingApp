@@ -1271,3 +1271,8 @@ C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\obj\
 C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\obj\Debug\net7.0\DatingApp.API.pdb
 C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\obj\Debug\net7.0\DatingApp.API.genruntimeconfig.cache
 C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\obj\Debug\net7.0\ref\DatingApp.API.dll
+C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\tpers\Desktop\Programming\DatingAppNew\DatingApp.API\DatingApp.API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll

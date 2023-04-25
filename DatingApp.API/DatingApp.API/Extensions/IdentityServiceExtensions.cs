@@ -1,15 +1,10 @@
-﻿using DatingApp.DAL;
-using DatingApp.Services.Implementation;
-using DatingApp.Services.Interfaces;
+﻿using DatingApp.API.Entities;
+using DatingApp.DAL;
+using DatingApp.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DatingApp.Services.Extensions
 {
@@ -17,6 +12,15 @@ namespace DatingApp.Services.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
+
+            services.AddIdentityCore<AppUser>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<AppRole>()
+                .AddRoleManager<RoleManager<AppRole>>()
+                // This is to created all the tables related to indentity in the db 
+                .AddEntityFrameworkStores<DataContext>();
 
             // Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
