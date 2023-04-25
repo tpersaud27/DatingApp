@@ -49,16 +49,17 @@ namespace DatingApp.API.Controllers
 
             // We want to hash the password
             // When we are done using this class we want to dispose of it. This is why we are using the 'using' keyword here.
-            using var hmac = new HMACSHA512();
+            //using var hmac = new HMACSHA512(); Identity will handle this
 
             // Note: For the code below we are this new user which is mapped into the AppUser will ...
             // contain the values that are passed in from the body of the request
             // when the user first registers we want to store the username in lowercase in the DB
             user.UserName = registerDto.Username.ToLower();
+
             // We had to convert the string to a byte array
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)); Identiy will handle this
             // HMAC class comes with a randomly key, this will be used as our PasswordSalt
-            user.PasswordSalt = hmac.Key;
+            // user.PasswordSalt = hmac.Key; Identity will handle this
 
             // This will track out user in memory
             _context.Users.Add(user);
@@ -95,6 +96,9 @@ namespace DatingApp.API.Controllers
                 return Unauthorized("Invalid Username.");
             }
 
+            /*
+             * This will be handled using ASP.NET Identity
+             * 
             // Check the password
             // To do this we need to get the same hash. To do this, we pass in the Key into the ComputeHash function. This should produce an identical hash that we have stored in the db
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -108,7 +112,7 @@ namespace DatingApp.API.Controllers
                 {
                     return Unauthorized("Invalid Password.");
                 }
-            }
+            } */
 
             return new UserDto
             {

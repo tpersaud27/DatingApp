@@ -28,14 +28,17 @@ namespace DatingApp.DAL.UserSeedData
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             // We want to convert fron JSON to C# list
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
+
+
             // We need to generate passwords for each user that we seeded because the seed data does not contain passwords
             foreach(var user in users)
             {
-                using var hmac = new HMACSHA512();
+                // using var hmac = new HMACSHA512(); Covered using identity
+
                 // We always store the username as lowercase in the DB
                 user.UserName = user.UserName.ToLower();
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
-                user.PasswordSalt = hmac.Key;
+                //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd")); Covered using indentity
+                //user.PasswordSalt = hmac.Key; Covered using identity
 
                 // Signal EF to track the users we are adding
                 context.Users.Add(user);

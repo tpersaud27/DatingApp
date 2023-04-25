@@ -38,6 +38,10 @@ export class MessagesComponent implements OnInit {
       });
   }
 
+  /**
+   * Note: This method can be further improved so that we call pagination to re-populate the screen
+   * @param id This is the id of the message we will delete
+   */
   deleteMessage(id: number) {
     this.messageService.deleteMessage(id).subscribe({
       next: () => {

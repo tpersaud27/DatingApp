@@ -1,24 +1,20 @@
 ﻿using DatingApp.API.Entities;
-using DatingApp.Services.Extensions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace DatingApp.Domain.Entities
 {
     /// <summary>
     /// This is the entity for the user
     /// </summary>
-    public class AppUser
+    public class AppUser: IdentityUser<int>
     {
-
+        /*
+         * Identity will cover these properties
         public int Id { get; set; }
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; } */
+
         public DateOnly DateOfBirth { get; set; }
         public string KnownAs { get; set; }
         // This is when the user was created
@@ -37,6 +33,8 @@ namespace DatingApp.Domain.Entities
 
         public List<Message> MessagesSent { get; set; }
         public List<Message> MessagesReceived { get; set; }
+
+        public ICollection<AppUserRole> UserRoles { get; set; }
 
 
         /// <summary>
