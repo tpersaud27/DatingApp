@@ -3,25 +3,24 @@ using DatingApp.DAL;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Experimental.ProjectCache;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace DatingApp.API.Controllers
 {
 
     public class AccountController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
         // Note: Its the frameworks job to look at which implementation is being used for the interfaces being injected
-        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
         {
-            _context = context;
+            _userManager = userManager;
             _tokenService = tokenService;
             _mapper = mapper;
         }
@@ -61,17 +60,22 @@ namespace DatingApp.API.Controllers
             // HMAC class comes with a randomly key, this will be used as our PasswordSalt
             // user.PasswordSalt = hmac.Key; Identity will handle this
 
-            // This will track out user in memory
-            _context.Users.Add(user);
-            // This will save the user to the db
-            await _context.SaveChangesAsync();
 
-            // We return a UserDto because the only information we want to expose is the JWT, Username, and KnownAs
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if(!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+      
+            // We return a UserDto because the only information we want to expose is the JWT, Username, and KnownAs, Gender
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
+                Gender= user.Gender,
             };
         }
 
@@ -84,8 +88,7 @@ namespace DatingApp.API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             // Retrieve the user
-            // Note: We use first or default because default will return null
-            var user = await _context.Users
+            var user = await _userManager.Users
                 .Include(p => p.Photos)
                 .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
@@ -95,6 +98,14 @@ namespace DatingApp.API.Controllers
                 // Return unauthorized status code, indicating user does not exist
                 return Unauthorized("Invalid Username.");
             }
+
+            var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!result)
+            {
+                return Unauthorized("Invalid password");
+            }
+
 
             /*
              * This will be handled using ASP.NET Identity
@@ -117,7 +128,7 @@ namespace DatingApp.API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 KnownAs = user.KnownAs,
                 Gender = user.Gender
@@ -131,7 +142,7 @@ namespace DatingApp.API.Controllers
         private async Task<bool> UserExists(string userName)
         {
             // This will return true if the username exists in the Users table
-            return await _context.Users.AnyAsync(x => x.UserName == userName.ToLower());
+            return await _userManager.Users.AnyAsync(x => x.UserName == userName.ToLower());
         }
 
     }

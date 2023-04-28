@@ -1,5 +1,6 @@
 ﻿using DatingApp.Domain.Entities;
 using DatingApp.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,15 +16,17 @@ namespace DatingApp.Services.Implementation
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
+        private readonly UserManager<AppUser> _userManager;
         private readonly SymmetricSecurityKey _key;
 
-        public TokenService(IConfiguration config)
+        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _config = config;
+            _userManager = userManager;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
         }
 
-        public string CreateToken(AppUser user)
+        public async Task<string> CreateToken(AppUser user)
         {
             // These are the claims we want to include in the JWT
             var claims = new List<Claim>
@@ -31,6 +34,11 @@ namespace DatingApp.Services.Implementation
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             };
+
+            // Gets the roles the user has
+            var roles = await _userManager.GetRolesAsync(user);
+            // Add the roles the user is part of   to the claim, if one just add one, else add multiple roles
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             // These are the signing credentials
             // This includes the key and the algorithm

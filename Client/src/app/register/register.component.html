@@ -6,23 +6,25 @@
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
 
-  <div class="mb-3">
+  <div class="form-check mb-3 d-flex">
     <label style="margin-right: 10px">I am a: </label>
-    <label class="form-check-label">
+    <label class="form-check-label" for="male">
       <input
         type="radio"
         class="form-check-input"
         value="male"
         formControlName="gender"
+        id="male"
       />
       Male
     </label>
-    <label class="form-check-label">
+    <label class="form-check-label" for="female">
       <input
         type="radio"
         class="form-check-input"
         value="female"
         formControlName="gender"
+        id="female"
       />
       Female
     </label>

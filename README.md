@@ -50,3 +50,4 @@
 - Postgres SQL
 - Cloudinary (Photo storage)
 - SignalR
+- ASP.NetCore Identity

@@ -1,3 +1,4 @@
+using DatingApp.API.Entities;
 using DatingApp.DAL;
 using DatingApp.DAL.UserSeedData;
 using DatingApp.Domain.Entities;
@@ -70,10 +71,11 @@ try
     var context = services.GetRequiredService<DataContext>();
 
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
 
     // This will create a database with the seed data
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(userManager);
+    await Seed.SeedUsers(userManager, roleManager);
 
 }
 catch(Exception ex)
