@@ -29,7 +29,7 @@ namespace DatingApp.API.Controllers
         /// </summary>
         /// <param name="userParams"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {

@@ -1,3 +1,4 @@
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { ListsComponent } from './lists/lists.component';
@@ -42,6 +43,10 @@ const routes: Routes = [
       {
         path: 'lists',
         component: ListsComponent,
+      },
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
       },
     ],
   },
