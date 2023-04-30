@@ -66,7 +66,7 @@ namespace DatingApp.API.Controllers
 
         }
 
-        [Authorize(Roles = "Members")]
+        [Authorize(Roles = "Member")]
         [HttpGet("username/{username}")] //api/users/{username}
         public async Task<ActionResult<MemberDto>> GetUserByUsername(string userName)
         {
