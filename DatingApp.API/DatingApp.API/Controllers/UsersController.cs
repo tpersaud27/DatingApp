@@ -17,7 +17,8 @@ namespace DatingApp.API.Controllers
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService) {
+        public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
+        {
             _userRepository = userRepository;
             _mapper = mapper;
             _photoService = photoService;
@@ -28,8 +29,9 @@ namespace DatingApp.API.Controllers
         /// </summary>
         /// <param name="userParams"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
             // Get the current user
             var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
@@ -37,11 +39,11 @@ namespace DatingApp.API.Controllers
             userParams.CurrentUsername = currentUser.UserName;
 
             // We want users to select a gender, if they do not select a gender we will return a default
-            if(string.IsNullOrEmpty(userParams.Gender)) 
+            if (string.IsNullOrEmpty(userParams.Gender))
             {
                 // Default we will just return the opposite gender
                 userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
-            
+
             }
 
             var users = await _userRepository.GetMembersAsync(userParams);
@@ -64,6 +66,7 @@ namespace DatingApp.API.Controllers
 
         }
 
+        [Authorize(Roles = "Members")]
         [HttpGet("username/{username}")] //api/users/{username}
         public async Task<ActionResult<MemberDto>> GetUserByUsername(string userName)
         {
@@ -131,7 +134,8 @@ namespace DatingApp.API.Controllers
 
             // Check if this is the first photo the user is uploading
             // If so we want to set this as the main photo
-            if (user.Photos.Count == 0) {
+            if (user.Photos.Count == 0)
+            {
                 photo.IsMain = true;
             }
 
@@ -220,7 +224,7 @@ namespace DatingApp.API.Controllers
             {
                 // Call DeletePhotoAsync method from photoservice
                 var result = await _photoService.DeletePhotoAsync(photo.PublicId);
-                
+
                 if (result.Error != null) return BadRequest(result.Error.Message);
             }
 

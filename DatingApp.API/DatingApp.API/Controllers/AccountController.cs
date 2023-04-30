@@ -37,7 +37,7 @@ namespace DatingApp.API.Controllers
         {
 
             // Check if the userName is already in use
-            if(await UserExists(registerDto.Username))
+            if (await UserExists(registerDto.Username))
             {
                 return BadRequest("Username is taken.");
             }
@@ -63,19 +63,24 @@ namespace DatingApp.API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }
 
-      
+            // We will add new users to the member role
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+
+
             // We return a UserDto because the only information we want to expose is the JWT, Username, and KnownAs, Gender
             return new UserDto
             {
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
-                Gender= user.Gender,
+                Gender = user.Gender,
             };
         }
 
@@ -93,7 +98,7 @@ namespace DatingApp.API.Controllers
                 .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             // Check if the user exists
-            if(user == null)
+            if (user == null)
             {
                 // Return unauthorized status code, indicating user does not exist
                 return Unauthorized("Invalid Username.");
