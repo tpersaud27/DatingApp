@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -45,6 +46,11 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    user.roles = [];
+    // Claim name is role
+    const roles = this.getDecodedToken(user.token).role;
+    // Check if there is multiple roles in the claim
+    Array.isArray(roles) ? (user.roles = roles) : user.roles.push(roles);
     // Key is user, value is the json of the user object
     // Once the user registers we log them in
     localStorage.setItem('user', JSON.stringify(user));
@@ -58,5 +64,10 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token: string) {
+    // This will give us the claim information from the token
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }
