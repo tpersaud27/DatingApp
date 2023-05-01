@@ -13,6 +13,7 @@
 ## Core Features of App
 
 - Authentication and Authorization
+- Policy and Role Based Authorization
 - JSON Web Tokens (JWTs)
 - Cookies and Caching
 - SSL Security
@@ -20,6 +21,7 @@
 - Extension Methods
 - Action Filters
 - Auth Guards
+- Route Resolvers
 - Http Interceptors
 - Pagination
 - Sorting
@@ -41,6 +43,7 @@
 - Ng2 File Upload <https://valor-software.com/ng2-file-upload/>
 - Ngx Bootstrap date picker
 - Ngx Time Ago <https://www.npmjs.com/package/ngx-timeago>
+- Ngx Boostrap Modals
 
 ## Backend
 
