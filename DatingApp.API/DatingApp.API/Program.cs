@@ -3,14 +3,10 @@ using DatingApp.DAL;
 using DatingApp.DAL.UserSeedData;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
-using DatingApp.Services.Implementation;
-using DatingApp.Services.Interfaces;
 using DatingApp.Services.Middleware;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using DatingApp.API.SignalR;
 
 
 // This creates the web application instance
@@ -63,6 +59,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<PresenceHub>("hubs/prescence");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -78,7 +75,7 @@ try
     await Seed.SeedUsers(userManager, roleManager);
 
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");

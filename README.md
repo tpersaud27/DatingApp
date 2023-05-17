@@ -52,5 +52,5 @@
 - SQLITE Server
 - Postgres SQL
 - Cloudinary (Photo storage)
-- SignalR
+- Azure SignalR
 - ASP.NetCore Identity

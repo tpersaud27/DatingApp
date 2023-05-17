@@ -7,13 +7,6 @@ using DatingApp.DAL.CloudinaryService;
 using DatingApp.Services.Implementation;
 using DatingApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DatingApp.API.Implementation;
 using DatingApp.API.Interfaces;
 
@@ -59,6 +52,8 @@ namespace DatingApp.Services.Extensions
             // Updating user last active property
             services.AddScoped<LogUserActivity>();
 
+            // SignalR
+            services.AddSignalR();
 
 
             return services;
