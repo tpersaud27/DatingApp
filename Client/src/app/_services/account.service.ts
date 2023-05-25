@@ -1,3 +1,4 @@
+import { PresenceService } from './presence.service';
 import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,7 +18,10 @@ export class AccountService {
   // The convention for setting observables is using the $ sign
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private presenceService: PresenceService
+  ) {}
 
   // Send a model to login in
   login(model: any) {
@@ -56,6 +60,9 @@ export class AccountService {
     localStorage.setItem('user', JSON.stringify(user));
     // We are using this to persist the login
     this.currentUserSource.next(user);
+
+    // This is where will create the hub connection
+    this.presenceService.createHubConnection(user);
   }
 
   /**
@@ -64,6 +71,8 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    // This is where we will stop the hub connection
+    this.presenceService.stopHubConnection();
   }
 
   getDecodedToken(token: string) {

@@ -21,7 +21,10 @@ builder.Services.AddApplicationServices(builder.Configuration);
 // Adding CORS Policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", b => b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+    options.AddPolicy("AllowAll", b => b.AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .AllowCredentials()
+                                        .WithOrigins("https://localhost:4200"));
 });
 
 // Authentication Service
@@ -59,7 +62,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<PresenceHub>("hubs/prescence");
+app.MapHub<PresenceHub>("hubs/presence");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

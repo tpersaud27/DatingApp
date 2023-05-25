@@ -11865,25 +11865,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/tommy/.nuget/packages/": {}
+    "C:\\Users\\tpers\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tommy/Desktop/Programming/DatingApp/DatingApp.API/DatingApp.API/DatingApp.API.csproj",
+      "projectUniqueName": "C:\\Users\\tpers\\Desktop\\Programming\\DatingAppNew\\DatingApp.API\\DatingApp.API\\DatingApp.API.csproj",
       "projectName": "DatingApp.API",
-      "projectPath": "/Users/tommy/Desktop/Programming/DatingApp/DatingApp.API/DatingApp.API/DatingApp.API.csproj",
-      "packagesPath": "/Users/tommy/.nuget/packages/",
-      "outputPath": "/Users/tommy/Desktop/Programming/DatingApp/DatingApp.API/DatingApp.API/obj/",
+      "projectPath": "C:\\Users\\tpers\\Desktop\\Programming\\DatingAppNew\\DatingApp.API\\DatingApp.API\\DatingApp.API.csproj",
+      "packagesPath": "C:\\Users\\tpers\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tpers\\Desktop\\Programming\\DatingAppNew\\DatingApp.API\\DatingApp.API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/tommy/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\tpers\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -11978,7 +11984,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
