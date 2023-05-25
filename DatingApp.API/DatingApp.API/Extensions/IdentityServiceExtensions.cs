@@ -38,6 +38,27 @@ namespace DatingApp.Services.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            // This is the bearer token
+                            // Since we cannot pass this as a http header, we need to pass this as a query string
+                            // access_token is what signalR on the client side will use 
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                            {
+                                // This will give signalR access to our bearer token
+                                // This is used for the authentication
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
+
                 });
 
 

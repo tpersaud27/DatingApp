@@ -1,9 +1,12 @@
 using DatingApp.Services.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DatingApp.API.SignalR
 {
+
     // This will be used to display if a user is online / the presence of a user
+    [Authorize]
     public class PresenceHub : Hub
     {
 
