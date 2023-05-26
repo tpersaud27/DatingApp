@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
 using DatingApp.Domain.DTOs;
 using DatingApp.Domain.Entities;
 using DatingApp.Services.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatingApp.DAL.AutomapperConfig
 {
@@ -39,8 +39,11 @@ namespace DatingApp.DAL.AutomapperConfig
                     .FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(d => d.RecipientPhotoUrl, o => o.MapFrom(src => src.Recipient.Photos
                     .FirstOrDefault(x => x.IsMain).Url));
+
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+            CreateMap<DateTime?, DateTime?>().ConvertUsing(d => d.HasValue ? 
+                DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
+
         }
-
-
     }
 }
