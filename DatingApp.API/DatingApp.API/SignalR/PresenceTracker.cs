@@ -64,6 +64,19 @@
             return Task.FromResult(onlineUsers);
 
         }
+
+        // We will get the connection strings so we can send a notification to any device the user is on
+        public static Task<List<string>> GetConnectionsForUser(string username)
+        {
+            List<string> connectionIds;
+
+            lock(OnlineUsers)
+            {
+                connectionIds = OnlineUsers.GetValueOrDefault(username);
+            }
+
+            return Task.FromResult(connectionIds);
+        }
         
     }
 }

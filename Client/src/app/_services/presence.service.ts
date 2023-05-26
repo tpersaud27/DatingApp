@@ -4,6 +4,8 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/User';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,7 @@ export class PresenceService {
   // This observable will give us something to subscribe to from our components
   onlineUsers$ = this.onlineUsersSource.asObservable();
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private router: Router) {}
 
   createHubConnection(user: User) {
     this.hubConnection = new HubConnectionBuilder()
@@ -46,6 +48,16 @@ export class PresenceService {
       // this will update the the onlineUsersSource with the usernames and notifies all observables that are subscribed
       // Note: https://dev.to/dipteekhd/angular-behaviorsubject-p1#:~:text=When%20a%20user%20performs%20any,who%20subscribed%20to%20source%20observable.
       this.onlineUsersSource.next(usernames);
+    });
+
+    this.hubConnection.on('NewMessageReceived', ({ username, knownAs }) => {
+      this.toastr
+        .info(knownAs + ' has sent you a new message! Click me to see it!')
+        .onTap.pipe(take(1))
+        .subscribe({
+          next: () =>
+            this.router.navigateByUrl('/members/' + username + '?tab=Messages'),
+        });
     });
   }
 

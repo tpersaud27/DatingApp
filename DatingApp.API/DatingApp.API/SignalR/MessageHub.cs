@@ -15,12 +15,15 @@ namespace DatingApp.API.SignalR
         private readonly IMessageRepository _messageRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<PresenceHub> _presenceHub;
 
-        public MessageHub(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper) { 
+        public MessageHub(IMessageRepository messageRepository, IUserRepository userRepository, 
+            IMapper mapper, IHubContext<PresenceHub> presenceHub) { 
             
             _messageRepository = messageRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _presenceHub = presenceHub;
         }
 
         public override async Task OnConnectedAsync()
@@ -94,6 +97,17 @@ namespace DatingApp.API.SignalR
             {
                 // If we have a matching recipient then we set the time read to now
                 message.DateRead = DateTime.UtcNow;
+            }
+            else
+            {
+                var connections = await PresenceTracker.GetConnectionsForUser(recipient.UserName);
+                // If we have connections then we know the user is connected to the application
+                if(connections != null)
+                {
+                    // This is the information we will send to the client that someone has sent them a message
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived",
+                        new {username = sender.UserName, knownAs = sender.KnownAs});
+                }
             }
 
             // Add the message
