@@ -7,8 +7,11 @@
 
         // Everytime the user connects they are given a unique id
 
-        public Task UserConnected(string username, string connectionId)
+        public Task<bool> UserConnected(string username, string connectionId)
         {
+
+            bool isOnline = false;
+
             // Since dictionaries are not thread safe, multiple users accessing it concurrently can cause issues
             // Using the lock will allow us to add one user at a time to the dictionary
             lock(OnlineUsers)
@@ -22,19 +25,23 @@
                 else
                 {
                     OnlineUsers.Add(username, new List<string>{connectionId});
+                    isOnline = true;
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(isOnline);
         }
 
-        public Task UserDisconnected(string username, string connectionId)
+        public Task<bool> UserDisconnected(string username, string connectionId)
         {
+
+            bool isOffline = false;
+
             lock(OnlineUsers)
             {
                 // If the user is not in the dictionary then we dont need to do anything
                 // This means they are offline
-                if(!OnlineUsers.ContainsKey(username)) return Task.CompletedTask;
+                if(!OnlineUsers.ContainsKey(username)) return Task.FromResult(isOffline);
 
                 // Remove the connection id for the user
                 OnlineUsers[username].Remove(connectionId); 
@@ -43,10 +50,11 @@
                 if(OnlineUsers[username].Count == 0)
                 {
                     OnlineUsers.Remove(username);
+                    isOffline = true;
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(isOffline);
         }
 
         public Task<string[]> GetOnlineUsers()

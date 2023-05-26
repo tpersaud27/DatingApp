@@ -37,11 +37,26 @@ export class PresenceService {
 
     // This must match the name from the api
     this.hubConnection.on('UserIsOnline', (username) => {
-      this.toastr.info(username + ' has connected!');
+      // this.toastr.info(username + ' has connected!');
+      // Creating a new array of online users
+      this.onlineUsers$.pipe(take(1)).subscribe({
+        next: (usernames) => {
+          // This will add the latest username to the list
+          this.onlineUsersSource.next([...usernames, username]);
+        },
+      });
     });
 
     this.hubConnection.on('UserIsOffline', (username) => {
-      this.toastr.warning(username + ' has disconnected!');
+      // this.toastr.warning(username + ' has disconnected!');
+
+      this.onlineUsers$.pipe(take(1)).subscribe({
+        next: (usernames) => {
+          // This will remove the latest username to the list
+          // Filter method creates a new array not including the username removed
+          this.onlineUsersSource.next(usernames.filter((x) => x !== username));
+        },
+      });
     });
 
     this.hubConnection.on('GetOnlineUsers', (usernames) => {
