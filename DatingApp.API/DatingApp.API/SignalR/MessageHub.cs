@@ -4,10 +4,12 @@ using DatingApp.API.Entities;
 using DatingApp.API.Interfaces;
 using DatingApp.DAL.Interfaces;
 using DatingApp.Services.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DatingApp.API.SignalR
 {
+    [Authorize]
     public class MessageHub: Hub
     {
         private readonly IMessageRepository _messageRepository;

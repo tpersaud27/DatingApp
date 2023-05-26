@@ -14,12 +14,10 @@ export class MemberMessagesComponent implements OnInit {
   // This is the username of the person the current user is looking at
   @Input()
   username?: string;
-  @Input()
-  messages: Message[] = [];
 
   messageContent: string = '';
 
-  constructor(private messageService: MessageService) {}
+  constructor(public messageService: MessageService) {}
 
   ngOnInit(): void {}
 
@@ -30,15 +28,9 @@ export class MemberMessagesComponent implements OnInit {
 
     this.messageService
       .sendMessage(this.username, this.messageContent)
-      .subscribe({
-        next: (message) => {
-          // We will get a messageDto back, this can be added to our messages array
-          // This is to update the front-end user of the new messages
-          this.messages.push(message);
-
-          // Now we clear the form
-          this.messageForm?.reset();
-        },
+      .then(() => {
+        // After the message is set we just reset the form
+        this.messageForm.reset();
       });
   }
 }

@@ -1,6 +1,7 @@
+import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 import { Member } from 'src/app/_models/Member';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   NgxGalleryAnimation,
@@ -11,29 +12,41 @@ import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageService } from 'src/app/_services/message.service';
 import { Message } from 'src/app/_models/Message';
 import { PresenceService } from 'src/app/_services/presence.service';
+import { User } from 'src/app/_models/User';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css'],
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit, OnDestroy {
   // Note: We do not have access to viewchild properties until after the component is constructed
   // Instead of waiting for the view to load dynamically it will be statically loaded
   @ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
   activeTab?: TabDirective;
   messages: Message[] = [];
-
+  // This is the member the user is looking at the details of
   member: Member = {} as Member;
   galleryImages: NgxGalleryImage[] = [];
   galleryOptions: NgxGalleryOptions[] = [];
 
+  user?: User;
+
   constructor(
-    private memberService: MembersService,
+    private accountService: AccountService,
     private route: ActivatedRoute,
     private messageService: MessageService,
     public presenceService: PresenceService
-  ) {}
+  ) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: (user) => {
+        if (user) {
+          this.user = user;
+        }
+      },
+    });
+  }
 
   ngOnInit(): void {
     // this.loadMember();
@@ -65,6 +78,11 @@ export class MemberDetailComponent implements OnInit {
     ];
 
     this.galleryImages = this.getImages();
+  }
+
+  // When the component is destroyed the connection is stopped
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
   }
 
   getImages() {
@@ -107,8 +125,11 @@ export class MemberDetailComponent implements OnInit {
     this.activeTab = data;
 
     // If the active tab is the messages tab we will then load the messages
-    if (this.activeTab.heading === 'Messages') {
-      this.loadMessages();
+    if (this.activeTab.heading === 'Messages' && this.user) {
+      // this.loadMessages();
+      this.messageService.createHubConnection(this.user, this.member.userName);
+    } else {
+      this.messageService.stopHubConnection();
     }
   }
 
