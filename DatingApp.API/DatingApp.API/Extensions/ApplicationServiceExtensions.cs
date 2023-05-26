@@ -9,6 +9,7 @@ using DatingApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DatingApp.API.Implementation;
 using DatingApp.API.Interfaces;
+using DatingApp.API.SignalR;
 
 namespace DatingApp.Services.Extensions
 {
@@ -54,6 +55,11 @@ namespace DatingApp.Services.Extensions
 
             // SignalR
             services.AddSignalR();
+
+            // Presence Hub (Note: since we want this accessed throughout the application for all users we are using a singleton,
+            // we dont want this destroyed everytime a http request is completed, should be alive for the lifetime of the application)
+            services.AddSingleton<PresenceTracker>();
+
 
 
             return services;
