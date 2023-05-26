@@ -27,9 +27,13 @@ export class NavComponent implements OnInit {
 
   login() {
     this.accountService.login(this.model).subscribe((response) => {
-      // When the user logs in they will be navigated to the members page
-      this.router.navigateByUrl('/members');
-      this.toastr.success('Logged In!');
+      next: {
+        // When the user logs in they will be navigated to the members page
+        this.router.navigateByUrl('/members');
+        this.toastr.success('Logged In!');
+        // This will reset the nav form back to empty
+        this.model = {};
+      }
     });
   }
 
