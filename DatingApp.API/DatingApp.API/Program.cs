@@ -1,4 +1,5 @@
 using DatingApp.API.Entities;
+using DatingApp.API.SignalR;
 using DatingApp.DAL;
 using DatingApp.DAL.UserSeedData;
 using DatingApp.Domain.Entities;
@@ -6,7 +7,6 @@ using DatingApp.Services.Extensions;
 using DatingApp.Services.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using DatingApp.API.SignalR;
 
 
 // This creates the web application instance
@@ -63,6 +63,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

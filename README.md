@@ -54,3 +54,8 @@
 - Cloudinary (Photo storage)
 - Azure SignalR
 - ASP.NetCore Identity
+
+## Running Application
+
+- Backend: dotnet run --launch-profile https
+- Frontend: ng serve
