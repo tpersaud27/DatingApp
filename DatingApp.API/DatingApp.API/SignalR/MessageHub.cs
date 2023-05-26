@@ -35,6 +35,8 @@ namespace DatingApp.API.SignalR
 
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
+            await AddToGroup(groupName);
+
             var messages = await _messageRepository
                            .GetMessageThread(Context.User.GetUsername(), otherUser);
 
@@ -42,9 +44,10 @@ namespace DatingApp.API.SignalR
         }
 
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            return base.OnDisconnectedAsync(exception);
+            await RemoveFromMessageGroup();
+            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task SendMessage(CreateMessageDto createMessageDto)
@@ -80,13 +83,25 @@ namespace DatingApp.API.SignalR
                 RecipientId = recipient.Id,
                 Content = createMessageDto.Content,
             };
+
+            // Get the groupName
+            var groupName = GetGroupName(sender.UserName, recipient.UserName);
+
+            var group = await _messageRepository.GetMessageGroup(groupName);
+
+            // Check if we have a matching recipient name
+            if(group.Connections.Any(x =>x.Username == recipient.UserName))
+            {
+                // If we have a matching recipient then we set the time read to now
+                message.DateRead = DateTime.UtcNow;
+            }
+
             // Add the message
             _messageRepository.AddMessage(message);
 
             if(await _messageRepository.SaveAllAsync())
             {
-                var group = GetGroupName(sender.UserName, recipient.UserName);
-                await Clients.Group(group).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
+                await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
             }
 
         }
@@ -103,7 +118,36 @@ namespace DatingApp.API.SignalR
             return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
 
+        // This method will be used to add a group to the database
+        private async Task<bool> AddToGroup(string groupName)
+        {
+            // Get the group first
+            var group = await _messageRepository.GetMessageGroup(groupName);
+            // Create a new connection
+            var connection = new Connection(Context.ConnectionId, Context.User.GetUsername());
 
+            // First we should check if the group does exist in the databse
+            if (group == null)
+            {
+                // If it is null we should be creating a new group
+                group = new Group(groupName);
+                _messageRepository.AddGroup(group);
+            }
+
+            // Add the conneciton to the group, either the one we have created or the one existing
+            group.Connections.Add(connection);
+            // Save the changes
+            return await _messageRepository.SaveAllAsync();
+        }
+
+        // All we do here is removing the connection from the database
+        // When we disconnect, signaR will remove the connection from the hub
+        private async Task RemoveFromMessageGroup()
+        {
+            var connection = await _messageRepository.GetConnection(Context.ConnectionId);
+            _messageRepository.RemoveConnection(connection);
+            await _messageRepository.SaveAllAsync();
+        }
 
     }
 }

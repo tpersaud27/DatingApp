@@ -76,8 +76,9 @@ try
 
     // This will create a database with the seed data
     await context.Database.MigrateAsync();
+    // This will remove all of the connections from the database
+    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
     await Seed.SeedUsers(userManager, roleManager);
-
 }
 catch (Exception ex)
 {

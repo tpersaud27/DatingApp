@@ -21,6 +21,10 @@ namespace DatingApp.API.Interfaces
 
         Task<bool> SaveAllAsync();
 
-
+        // These are for tracking the message groups
+        void AddGroup(Group group);
+        void RemoveConnection(Connection connection);
+        Task<Connection> GetConnection(string connectionId);
+        Task<Group> GetMessageGroup(string groupName);
     }
 }
