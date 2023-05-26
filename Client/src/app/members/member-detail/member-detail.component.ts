@@ -10,6 +10,7 @@ import {
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageService } from 'src/app/_services/message.service';
 import { Message } from 'src/app/_models/Message';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -30,7 +31,8 @@ export class MemberDetailComponent implements OnInit {
   constructor(
     private memberService: MembersService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public presenceService: PresenceService
   ) {}
 
   ngOnInit(): void {
